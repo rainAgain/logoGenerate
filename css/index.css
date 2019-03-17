@@ -11,7 +11,8 @@
 .clearfix:after {
     content: "";
     clear: both;
-    overflow: hidden;
+    display: block;
+    height: 0;
 }
 
 .fl {
@@ -20,6 +21,16 @@
 
 .fr {
     float: right;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}
+
+input {
+    outline: none;
+    padding-left: 5px;
+    box-sizing: border-box;
 }
 
 /* 左边 */
@@ -90,4 +101,44 @@
     padding-left: 350px;
     padding-top: 30px;
     padding-right: 30px;
+}
+
+.select-theme {
+    margin-right: 20px;
+}
+
+.logo-color-picker {
+    margin-top: -2px;
+}
+
+.tip {
+    width: 15px;
+    height: 15px;
+    background-color: #ccc;
+    color: #fff;
+    font-style: normal;
+    font-size: 12px;
+    border-radius: 50%;
+    margin-top: 3px;
+    margin-left: 20px;
+    text-align: center;
+    line-height: 15px;
+}
+
+.tip:hover {
+    cursor: pointer;
+}
+
+.logo-size {
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.canvas {
+    display: block;
+}
+
+.canvas-box {
+    margin-top: 20px;
 }
