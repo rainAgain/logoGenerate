@@ -12,7 +12,8 @@
     <div class="logo-main clearfix" id="logo-main">
         <div class="logo-left fl">
             <div class="logo-img-add">
-
+                <img src="" class="preview-img" id="preview" alt="">
+                <input id="upload" type="file" class="upload" onchange="loadImageFile();" />
             </div>
             <div class="logo-name">
                 <input class="input-text" placeholder="请输入系统名称" type="text" />
@@ -25,14 +26,14 @@
             <div class="logo-theme clearfix">
                 <select name="" id="theme-select" class="select-theme fl">
                     <option value="dream">dream 主题</option>
-                    <option  selected = "selected" value="grace">grace 主题</option>
+                    <option selected="selected" value="grace">grace 主题</option>
                     <option value="aide">aide 主题</option>
                     <option value="brance">brance 主题</option>
                     <option value="meter">meter 主题</option>
                 </select>
 
                 <div class="logo-color-picker fl">
-                    <input type="text" id="color-picker" class="form-control demo" data-opacity=".5" value="#766fa8">
+                    <input type="text" id="color-picker" class="form-control demo" data-opacity="1" value="#766fa8">
                 </div>
                 <i class="fl tip" title="单机内容进行移动或编辑；背景仅做辅助，生成时将被去除">?</i>
             </div>
@@ -42,16 +43,14 @@
                 </div>
                 <div class="fl">
                     <span class="mr-10">尺寸</span>
-                    <input type="" value="650" name="" />
-                    <input type="" value="110" name="" />
+                    <input type="" id="logo-width" value="650" name="" />
+                    <input type="" id="logo-height" value="110" name="" />
                 </div>
             </div>
 
             <!-- 生成的logo -->
             <div class="canvas-box">
-                <canvas id="canvas" class="canvas" width="650" height="110">
-                    
-                </canvas>
+                <canvas id="canvas" class="canvas" width="650" height="110"></canvas>
             </div>
         </div>
     </div>
