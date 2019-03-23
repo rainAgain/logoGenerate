@@ -27,15 +27,19 @@
         $canvas.style.height = _height + 'px';
         
 		// ctx.lineWidth = 10;
-
+        console.log(_bg);
 		ctx.fillStyle = _bg;
 		ctx.fillRect(0,0,_width,_height);
 	}
 
 	renderLogo();
 
+    var $colorPicker = $('#color-picker');
     $('body').on('input propertychange', '#color-picker', function() {
-        canvasConfig.bg = $(this).val();
+        canvasConfig.bg = $colorPicker.minicolors("rgbaString", $(this).val());
+        
+        // console.log($colorPicker.minicolors("opacity", $(this).val()))
+
         renderLogo();
 
     }).on('input propertychange', "#logo-width", function() {
