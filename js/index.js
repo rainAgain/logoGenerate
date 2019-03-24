@@ -1,12 +1,16 @@
+var $logoImage = $('#logo-image'),
+	$logoImgBox = $('#logo-img');
+
 (function(win) {
     var $logo = $('#logo-main'),
+    	$canvasBox = $('#canvas-box'),
         $canvas = document.getElementById('canvas'),
         ctx = $canvas.getContext("2d"),
         canvasConfig = {
             bg: "#00f",
             width: 650,
             height: 110
-        }
+        };
 
 	$logo.on('click', '.add-sub-title', function() {
 		var $this = $(this);
@@ -51,6 +55,9 @@
         renderLogo();
         
     });
+
+    $logoImgBox.draggable();
+    $logoImgBox.resizable();
 })(window);
 
 (function(win) {
@@ -61,18 +68,21 @@
 
     oFReader.onload = function (oFREvent) {
         $preview.src = oFREvent.target.result;
+        // console.log(oFREvent.target.result);
+        // console.log($logoImg);
+        $logoImage.attr('src', oFREvent.target.result);
         // $preview.style.backgroundImage = 'url('+oFREvent.target.result+')';
     };
 
     // 导入图片
     win.loadImageFile = function() {
 
-        if ($upload.files.length === 0) { 
+        if ($upload.files.length === 0) {
             return; 
         }
         var oFile = $upload.files[0];
     
-        if (!rFilter.test(oFile.type)) { 
+        if (!rFilter.test(oFile.type)) {
             alert("You must select a valid image file!"); 
             return; 
         }

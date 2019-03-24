@@ -155,6 +155,7 @@ input {
 
 .canvas-box {
     margin-top: 20px;
+    position: relative;
 }
 
 .upload {
@@ -165,4 +166,20 @@ input {
     height: 100%;
     z-index: 1;
     opacity: 0;
+}
+
+.logo-img {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    width: 200px;
+    height: 80px;
+    z-index: 1;
+    border: 1px solid #ccc;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
