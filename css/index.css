@@ -149,6 +149,10 @@ input {
     font-size: 14px;
 }
 
+.logo-size-input {
+    width: 100px;
+}
+
 .canvas {
     display: block;
 }
@@ -172,14 +176,33 @@ input {
     position: absolute;
     top: 15px;
     left: 10px;
-    width: 200px;
-    height: 80px;
+    width: 0px;
+    height: 0px;
     z-index: 1;
-    border: 1px solid #ccc;
+    cursor: move;
+    /* border: 0px dashed #ccc; */
 }
 
-img {
+.logo-pic {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+.logo-title {
+    position: absolute;
+    top: 15px;
+    left: 100px;
+    z-index: 1;
+    color: #fff;
+    cursor: move;
+}
+
+.logo-sub-title {
+    position: absolute;
+    top: 55px;
+    left: 100px;
+    z-index: 1;
+    color: #fff;
+    cursor: move;
 }

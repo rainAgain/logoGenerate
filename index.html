@@ -16,10 +16,10 @@
                 <input id="upload" type="file" class="upload" onchange="loadImageFile();" />
             </div>
             <div class="logo-name">
-                <input class="input-text" placeholder="请输入系统名称" type="text" />
+                <input class="input-text" id="logo-name" placeholder="请输入系统名称" value="" type="text" />
             </div>
             <div class="logo-name add-sub-title">
-                <input class="input-text" type="text" placeholder="请输入副标题" />
+                <input class="input-text" id="add-sub-title" type="text" placeholder="请输入副标题" />
             </div>
         </div>
         <div class="logo-right fl">
@@ -43,8 +43,21 @@
                 </div>
                 <div class="fl">
                     <span class="mr-10">尺寸</span>
-                    <input type="" id="logo-width" value="650" name="" />
-                    <input type="" id="logo-height" value="110" name="" />
+                    <input type="text" class="logo-size-input" id="logo-width" value="650" name="" />
+                    <input type="text" class="logo-size-input" id="logo-height" value="110" name="" />
+                    <span  class="mr-10">文本</span>
+                    <input type="text" class="logo-size-input" id="logo-font-size" value="110" name="" />
+                    <select name="" id="logo-font-weight">
+                        <option value="bold" selected>Bold</option>
+                        <option value="light">Light</option>
+                        <option value="normal">Normal</option>
+                    </select>
+                    <select name="" id="logo-font-family">
+                        <option value="黑体" selected>黑体</option>
+                        <option value="微软雅黑">微软雅黑</option>
+                    </select>
+
+                    <button class="result">生成</button>
                 </div>
             </div>
 
@@ -52,9 +65,20 @@
             <div class="canvas-box" id="canvas-box">
                 <canvas id="canvas" class="canvas" width="650" height="110"></canvas>
                 <div id="logo-img" class="logo-img">
-                    <img id="logo-image" src="" alt="">
+                    <img id="logo-pic" class="logo-pic" src="" alt="">
                 </div>
+                <p class="logo-title" id="logo-title">
+                    
+                </p>
+                <p class="logo-sub-title" id="logo-sub-title">
+
+                </p>
             </div>
+
+            <div class="canvas-box" id="canvas-box-result">
+                <canvas id="canvas-result" class="canvas" width="650" height="110"></canvas>
+            </div>
+
         </div>
     </div>
 
