@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="logo-main clearfix" id="logo-main">
+        <!-- 左侧 -->
         <div class="logo-left fl">
             <div class="logo-img-add">
                 <img src="" class="preview-img" id="preview" alt="">
@@ -22,6 +23,7 @@
                 <input class="input-text" id="add-sub-title" type="text" placeholder="请输入副标题" />
             </div>
         </div>
+        <!-- 右侧 -->
         <div class="logo-right fl">
             <div class="logo-theme clearfix">
                 <select name="" id="theme-select" class="select-theme fl">
@@ -37,47 +39,105 @@
                 </div>
                 <i class="fl tip" title="单机内容进行移动或编辑；背景仅做辅助，生成时将被去除">?</i>
             </div>
-            <div class="logo-size clearfix">
-                <div class="fl mr-10">
-                    登录页
-                </div>
-                <div class="fl">
-                    <span class="mr-10">尺寸</span>
-                    <input type="text" class="logo-size-input" id="logo-width" value="650" name="" />
-                    <input type="text" class="logo-size-input" id="logo-height" value="110" name="" />
-                    <span  class="mr-10">文本</span>
-                    <input type="text" class="logo-size-input" id="logo-font-size" value="110" name="" />
-                    <select name="" id="logo-font-weight">
-                        <option value="bold" selected>Bold</option>
-                        <option value="light">Light</option>
-                        <option value="normal">Normal</option>
-                    </select>
-                    <select name="" id="logo-font-family">
-                        <option value="黑体" selected>黑体</option>
-                        <option value="微软雅黑">微软雅黑</option>
-                    </select>
 
-                    <button class="result">生成</button>
+            <!-- 登录页logo -->
+            <div id="login-info">
+                <div class="logo-size clearfix">
+                    <div class="fl mr-10">
+                        登录页
+                    </div>
+                    <div class="fl">
+                        <span class="mr-10">尺寸</span>
+                        <input type="text" class="logo-size-input logo-width" id="logo-width" value="650" name="" />
+                        <input type="text" class="logo-size-input logo-height" id="logo-height" value="110" name="" />
+                        <span  class="mr-10">文本</span>
+                        <input type="text" class="logo-size-input hidden logo-font-size" id="logo-font-size" value="24px" name="" />
+                        <select name="" id="logo-font-weight" class="hidden logo-font-weight">
+                            <option value="300">lighter</option>
+                            <option value="400">light</option>
+                            <option value="500" selected>normal</option>
+                            <option value="700">bold</option>
+                            <option value="900">bolder</option>
+                        </select>
+                        <select name="" id="logo-font-family" class="hidden logo-font-family">
+                            <option value="Microsoft YaHei" selected>微软雅黑</option>
+                            <option value="SimHei">黑体</option>
+                            <option value="SimSun">宋体</option>
+                            <option value="KaiTi">楷体</option>
+                        </select>
+                        <span class="icon-reduce">-</span>
+                        <input class="pic-times" data-time="100" type="text" min="10" value="100%" />
+                        <span class="icon-plus">+</span>
+                        <button class="result">预览</button>
+                    </div>
+                </div>
+
+                <!-- 登录页logo -->
+                <div class="canvas-box canvas-help" id="canvas-box">
+                    <canvas id="canvas" class="canvas" width="650" height="110"></canvas>
+                    <div id="logo-img" class="logo-img">
+                        <img id="logo-pic" class="logo-pic" src="" alt="">
+                    </div>
+                    <p class="logo-title" id="logo-title">
+                        
+                    </p>
+                    <p class="logo-sub-title" id="logo-sub-title">
+
+                    </p>
+                </div>
+
+                <div class="canvas-box" id="canvas-box-result">
+                    <canvas id="canvas-result" class="canvas" width="650" height="110"></canvas>
                 </div>
             </div>
-
-            <!-- 生成的logo -->
-            <div class="canvas-box" id="canvas-box">
-                <canvas id="canvas" class="canvas" width="650" height="110"></canvas>
-                <div id="logo-img" class="logo-img">
-                    <img id="logo-pic" class="logo-pic" src="" alt="">
+            
+            
+            <!-- 首页logo -->
+            <!-- <div class="home-info" id="home-info">
+                <div class="logo-size clearfix">
+                    <div class="fl mr-10">
+                        首页
+                    </div>
+                    <div class="fl">
+                        <span class="mr-10">尺寸</span>
+                        <input type="text" class="logo-size-input logo-width" id="logo-width-home" value="300" name="" />
+                        <input type="text" class="logo-size-input logo-height" id="logo-height-home" value="50" name="" />
+                        <span  class="mr-10">文本</span>
+                        <input type="text" class="logo-size-input hidden" id="logo-font-size-home" value="24px" name="" />
+                        <select name="" id="logo-font-weight-home" class="hidden">
+                            <option value="300">300</option>
+                            <option value="400">400</option>
+                            <option value="500" selected>500</option>
+                            <option value="600">600</option>
+                            <option value="700">700</option>
+                            <option value="800">800</option>
+                            <option value="900">900</option>
+                        </select>
+                        <select name="" id="logo-font-family-home" class="hidden">
+                            <option value="Microsoft YaHei" selected>微软雅黑</option>
+                            <option value="SimHei">黑体</option>
+                            <option value="SimSun">宋体</option>
+                            <option value="KaiTi">楷体</option>
+                        </select>
+            
+                        <button class="result">预览</button>
+                    </div>
                 </div>
-                <p class="logo-title" id="logo-title">
-                    
-                </p>
-                <p class="logo-sub-title" id="logo-sub-title">
-
-                </p>
-            </div>
-
-            <div class="canvas-box" id="canvas-box-result">
-                <canvas id="canvas-result" class="canvas" width="650" height="110"></canvas>
-            </div>
+                首页
+                <div class="canvas-box canvas-help" id="canvas-box-home">
+                    <canvas id="canvas-home" class="canvas" width="300" height="50"></canvas>
+                    <div id="logo-img-home" class="logo-img">
+                        <img id="logo-pic-home" class="logo-pic" src="" alt="">
+                    </div>
+                    <p class="logo-title" id="logo-title-home">
+                        
+                    </p>
+                    <p class="logo-sub-title" id="logo-sub-title-home">
+            
+                    </p>
+                </div>
+            </div> -->
+            
 
         </div>
     </div>
