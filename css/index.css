@@ -289,9 +289,6 @@ input {
     border: 1px dashed #07eb2d;
 }
 
-.hidden {
-    display: none;
-}
 
 .pic-times {
     width: 100px;
@@ -317,4 +314,28 @@ input {
 .icon-plus:hover {
     cursor: pointer;
     background-color: #eee
+}
+
+.text-picker .minicolors-swatch {
+    top: 0;
+}
+
+.logo-text-picker {
+    display: inline-block;
+}
+
+.logo-text-picker .minicolors-theme-default.minicolors {
+    height: 22px;
+}
+
+.logo-text-picker .minicolors-swatch {
+    top: 1px;
+}
+
+.text-info {
+    display: inline-block;
+}
+
+.hidden {
+    display: none;
 }
