@@ -310,6 +310,8 @@ var $homeLogoImgBox = $('#logo-img-home'),
         });
     }
 })(window);
+
+
 // 渲染图片
 (function(win) {
     var oFReader = new FileReader(),
@@ -424,6 +426,7 @@ var $homeLogoImgBox = $('#logo-img-home'),
         }
     }
 })(window);
+
 (function(win) {
     var $canvas = document.getElementById('canvas-result'),
         ctx = $canvas.getContext("2d");
@@ -463,6 +466,7 @@ var $homeLogoImgBox = $('#logo-img-home'),
         ctx.fillStyle = subTitleConfig.color;
         ctx.fillText(canvasConfig.subTitle, subTitleSite.left, subTitleSite.top + 5);
     }
+    
     win.convertCanvasToImage = function(canvas) {
         var image = new Image();
         image.src = canvas.toDataURL("image/png");

@@ -81,7 +81,7 @@ input {
     height: 40px;
     margin-bottom: 10px;
 
-    border: 1px solid #eee;
+    /*border: 1px solid #eee;*/
 }
 
 .input-text {
@@ -105,7 +105,7 @@ input {
 }
 
 .add-sub-title.active {
-    border: 1px solid #eee;
+    /*border: 1px solid #eee;*/
 }
 
 .add-sub-title:after {
@@ -174,7 +174,7 @@ input {
 }
 
 .logo-size-input {
-    width: 100px;
+    width: 100px !important;
 }
 
 .canvas {
@@ -300,10 +300,10 @@ input {
     height: 22px;
 }
 
-.icon-reduce,
+/*.icon-reduce,
 .icon-plus {
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
     display: inline-block;
     text-align: center;
     border: 1px solid #ccc;
@@ -315,7 +315,7 @@ input {
     cursor: pointer;
     background-color: #eee
 }
-
+*/
 .text-picker .minicolors-swatch {
     top: 0;
 }
@@ -338,4 +338,23 @@ input {
 
 .hidden {
     display: none;
+}
+
+.relative {
+    position: relative;
+}
+
+.fix-box {
+    width: 100px !important;
+    margin-right: 5px;
+}
+
+.fix-mt-5 {
+    margin-top: 5px;
+}
+
+.result {
+    position: absolute;
+    top: 0;
+    right: 0;
 }

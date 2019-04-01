@@ -7,6 +7,7 @@
     <title>logo 生成器</title>
     <link rel="stylesheet" type="text/css" href="css/jquery.minicolors.css">
     <link rel="stylesheet" href="css/index.css" >
+    <link rel="stylesheet" href="css/element-ui.css">
 </head>
 <body>
     <div class="logo-main clearfix" id="logo-main">
@@ -17,10 +18,16 @@
                 <input id="upload" type="file" class="upload" onchange="loadImageFile();" />
             </div>
             <div class="logo-name">
-                <input class="input-text" id="logo-name" placeholder="请输入系统名称" value="" type="text" />
+                <div class="el-input">
+                    <input type="text" id="logo-name" autocomplete="off" placeholder="请输入系统名称" class="el-input__inner">
+                </div>
+                <!-- <input class="input-text" id="logo-name" placeholder="请输入系统名称" value="" type="text" /> -->
             </div>
             <div class="logo-name add-sub-title">
-                <input class="input-text" id="add-sub-title" type="text" placeholder="请输入副标题" />
+                <div class="el-input">
+                    <input type="text" id="add-sub-title" autocomplete="off" placeholder="请输入副标题" class="el-input__inner">
+                </div>
+                <!-- <input class="input-text" id="add-sub-title" type="text" placeholder="请输入副标题" /> -->
             </div>
         </div>
 
@@ -37,21 +44,120 @@
                 </select>
 
                 <div class="logo-color-picker fl">
-                    <input type="text" id="color-picker" class="form-control demo" value="#766fa8">
+                    <!-- <div class="el-input">
+                        <input type="text" id="color-picker" autocomplete="off" value="#00f" placeholder="请输入系统名称" class="el-input__inner">
+                    </div> -->
+                    <input type="text" id="color-picker" class="form-control demo" value="#00f">
                 </div>
                 <i class="fl tip" title="单机内容进行移动或编辑；背景仅做辅助，生成时将被去除">?</i>
             </div>
 
             <!-- 登录页logo -->
             <div id="login-info">
-                <div class="logo-size clearfix">
-                    <div class="fl mr-10">
+                <div class="logo-size clearfix relative">
+                    <div class="mr-10">
                         登录页
                     </div>
                     <div class="fl">
+                        <div class="fix-mt-5 clearfix">
+                            <span class="mr-10 fl">尺寸：</span>
+                            <div class="el-input el-input--mini el-input--suffix fl fix-box">
+                                <input type="text" id="color-picker" autocomplete="off" value="650" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-width">
+                            </div>
+
+                            <div class="el-input el-input--mini el-input--suffix fl fix-box">
+                                <input type="text" id="color-picker" autocomplete="off" value="110" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-height">
+                            </div>
+                            <!-- <input type="text" class="logo-size-input logo-width" value="650" name="" />
+                        <input type="text" class="logo-size-input logo-height" value="110" name="" /> -->
+                        </div>
+                        
+                        <div class="fix-mt-5 clearfix">
+                            <span  class="mr-10">图片：</span>
+                            <!-- <span class="icon-reduce">-</span> -->
+                            <button type="button" class="el-button el-button--default el-button--mini icon-reduce">
+                                <span>-</span>
+                            </button>
+                            <div class="el-input el-input--mini el-input--suffix fix-box">
+                                <input type="text" data-time="100" min="10" type="text" autocomplete="off" value="100%" class="el-input__inner pic-times">
+                            </div>
+                            <!-- <input class="pic-times" data-time="100" type="text" min="10" value="100%" /> -->
+                            <!-- <span class="icon-plus">+</span> -->
+
+                            <button type="button" class="el-button el-button--default el-button--mini icon-plus">
+                                <span>+</span>
+                            </button>
+                        </div>
+
+                        <div class="fix-mt-5 clearfix">
+                            <span  class="mr-10">文本：</span>
+                            <div class="text-info hidden">
+                                <div class="logo-text-picker">
+                                    <input type="text" class="text-picker" value="#fff">
+                                </div>
+                                <!-- <input type="text" id="text-picker" class="text-picker" value="#fff"> -->
+                                <div class="el-input el-input--mini el-input--suffix fix-box">
+                                   <!--  <input type="text" id="color-picker" autocomplete="off" value="110" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-height"> -->
+                                   <input type="text" class="el-input__inner logo-size-input logo-font-size" value="24px" name="" />
+                                </div>
+                                <!-- <input type="text" class="logo-size-input logo-font-size" value="24px" name="" /> -->
+                                <div class="el-input el-input--mini el-input--suffix fix-box">
+                                    <select name="" class="el-input__inner logo-font-weight">
+                                        <option value="300">lighter</option>
+                                        <option value="400">light</option>
+                                        <option value="500" selected>normal</option>
+                                        <option value="700">bold</option>
+                                        <option value="900">bolder</option>
+                                    </select>
+                                </div>
+                                <div class="el-input el-input--mini el-input--suffix fix-box">
+                                    <select name="" class="el-input__inner logo-font-family">
+                                        <option value="Microsoft YaHei" selected>微软雅黑</option>
+                                        <option value="SimHei">黑体</option>
+                                        <option value="SimSun">宋体</option>
+                                        <option value="KaiTi">楷体</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        <button type="button" class="el-button el-button--primary el-button--mini fix-mt-5 result">
+                            <i class="el-icon-download"></i> 下载
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 登录页logo -->
+                <div class="canvas-box canvas-help" id="canvas-box">
+                    <canvas id="canvas" class="canvas" width="650" height="110"></canvas>
+                    <div class="logo-img">
+                        <img class="logo-pic" src="" alt="">
+                    </div>
+                    <p class="logo-title" id="logo-title">
+                        
+                    </p>
+                    <p class="logo-sub-title" id="logo-sub-title">
+
+                    </p>
+                </div>
+
+                
+            </div>
+            
+            <!-- 首页 -->
+             <div id="home-info">
+                <div class="logo-size clearfix">
+                    <div class="fl mr-10">
+                        首页
+                    </div>
+                    <div class="fl">
                         <span class="mr-10">尺寸：</span>
-                        <input type="text" class="logo-size-input logo-width" value="650" name="" />
-                        <input type="text" class="logo-size-input logo-height" value="110" name="" />
+                        <input type="text" class="logo-size-input logo-width" value="300" name="" />
+                        <input type="text" class="logo-size-input logo-height" value="50" name="" />
 
                         <span  class="mr-10">图片：</span>
                         <span class="icon-reduce">-</span>
@@ -85,24 +191,25 @@
                 </div>
 
                 <!-- 登录页logo -->
-                <div class="canvas-box canvas-help" id="canvas-box">
-                    <canvas id="canvas" class="canvas" width="650" height="110"></canvas>
+                <div class="canvas-box canvas-help" id="home-canvas-box">
+                    <canvas id="home-canvas" class="canvas"></canvas>
                     <div class="logo-img">
                         <img class="logo-pic" src="" alt="">
                     </div>
-                    <p class="logo-title" id="logo-title">
+                    <p class="logo-title">
                         
                     </p>
-                    <p class="logo-sub-title" id="logo-sub-title">
+                    <p class="logo-sub-title">
 
                     </p>
                 </div>
 
-                <div class="canvas-box" id="canvas-box-result">
-                    <canvas id="canvas-result" class="canvas" width="650" height="110"></canvas>
-                </div>
+                
             </div>
-            
+
+            <!-- <div class="canvas-box" id="canvas-box-result">
+                    <canvas id="canvas-result" class="canvas" width="650" height="110"></canvas>
+                </div> -->
             
             <!-- 首页logo -->
             <!-- <div id="home-info">
@@ -172,7 +279,10 @@
     <script src=js/jquery-1.11.1.min.js></script>
     <script src="js/jquery-ui.js"></script>
     <script src="js/jquery.minicolors.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/logoGen.js"></script>
+    <script src="js/main.js"></script>
+    <!-- <script src="js/index.js"></script> -->
+
 
 </body>
 </html>
