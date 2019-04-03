@@ -210,6 +210,16 @@
             
         });
 
+        $('body').on('click', function (e) {
+            var $target = $(e.target);
+            if (!$target.closest('.logo-img').length) {
+                that.$picInfo.addClass('hidden');
+            }
+            if(!$target.closest('.logo-title,.logo-sub-title').length) {
+            	that.$textInfo.addClass('hidden');
+            }
+        });
+
 
         // that.$logoImgBox.resizable({
         //     containment: that.options.canvasBox
