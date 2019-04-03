@@ -9,30 +9,31 @@
         // 默认图片信息
         this.imgInfo = {
             width: 0,
-            height: 0
+            height: 0,
+            time: 100
         };
         this.cacheImgInfo = {};
         // canvas相关配置
         this.canvasConfig = {
-            bg: "#00f",
+            bg: "rgba(255,255,255,0)",
             width: 650,
             height: 110,
-            title: "",
-            subTitle: ""
+            title: "", // 标题
+            subTitle: "" // 副标题
         };
         // 大标题配置
         this.titleConfig = {
-            size: "24px",
+            size: "40px",
             weight: "500",
-            color: "#fff",
-            family: "Microsoft YaHei"
+            color: "#333",
+            family: "Source Han Sans CN" //"Microsoft YaHei" // 思源黑体
         };
         // 副标题配置
         this.subTitleConfig = {
             size: "18px",
             weight: "500",
-            color: "#fff",
-            family: "Microsoft YaHei"
+            color: "#333",
+            family: "Source Han Sans CN" //"Microsoft YaHei" // 思源黑体
         };
         // 当前选中标题
         this.currentTtile = "";
@@ -57,6 +58,10 @@
         	this.subTitleConfig = $.extend({}, this.subTitleConfig, options.subTitleConfig);
         }
 
+        if(options.imgInfo) {
+        	this.imgInfo = $.extend({}, this.imgInfo, options.imgInfo);
+        }
+
         this.options = JSON.parse(JSON.stringify(options));
         this.$logoInfo = $(options.logoModule); // 类别模块
         var $logoInfo = this.$logoInfo;
@@ -68,13 +73,16 @@
         this.$weight = $('.logo-font-weight', $logoInfo); // 粗细
         this.$family = $('.logo-font-family', $logoInfo); // 字体
         this.$textPicker = $('.text-picker', $logoInfo); // 颜色
+        this.$picInfo = $('.pic-info', $logoInfo); // 图片显示与隐藏
         this.$textInfo = $('.text-info', $logoInfo); // 控制字体设置的显示与隐藏
+        this.$titleText = $('.title-text', $logoInfo); // 文本标题
         this.$logoWidth = $('.logo-width', $logoInfo);
         this.$logoHeight = $('.logo-height', $logoInfo);
         this.$picTimes = $('.pic-times', $logoInfo);
         this.$canvas = document.getElementById(options.canvasId);
         this.ctx = this.$canvas.getContext("2d");
 
+        
         this.initEvent();
     };
 
@@ -87,6 +95,8 @@
         that.$textPicker.minicolors({
             opacity: true
         });
+        // 初始化放大
+        that.$picTimes.data('time', that.imgInfo.time).val(that.imgInfo.time + "%").attr('data-time', that.imgInfo.time);
         // 第一次渲染画布
         that.renderCanvas();
         // 第一次渲染标题位置
@@ -100,8 +110,6 @@
         }).on('input propertychange', '.logo-height', function() {
             that.canvasConfig.height = $(this).val();
             that.renderCanvas();
-
-
         }).on('click', '.result', function() {
             // renderResultLogo();
             that.convertCanvasToImage()
@@ -144,7 +152,10 @@
         }).on('click', '.icon-plus', function() {
             var _time = parseInt(that.$picTimes.data('time'));
             _time = _time + 10;
-            that.$picTimes.data('time', _time).val(_time + "%");
+            that.$picTimes.data('time', _time).val(_time + "%").attr('data-time', _time);
+            
+            that.imgInfo.time = _time;
+
             console.log("plus")
             console.log(_time)
             that.renderImg({
@@ -159,29 +170,44 @@
             }
             console.log("reduce")
             console.log(_time)
-            that.$picTimes.data('time', _time).val(_time + "%");
+            that.$picTimes.data('time', _time).val(_time + "%").attr('data-time', _time);
+            
+            that.imgInfo.time = _time;
+
             that.renderImg({
                 time: _time
             });
         }).on('click', '.logo-title', function() {
             that.currentTtile = "title";
             that.initFont();
+            that.$titleText.text('系统名称：');
         }).on('click', '.logo-sub-title', function() {
             that.currentTtile = "subTitle";
             that.initFont();
+            that.$titleText.text('副标题：');
+        }).on('click', '.logo-pic', function() {
+        	if(that.$picInfo.hasClass('hidden')) {
+        		that.$picInfo.removeClass('hidden');
+        	}
         });
+
         var $colorPicker = $('#color-picker');
+
         $('body').on('input propertychange', '#color-picker', function() {
             that.canvasConfig.bg = $colorPicker.minicolors("rgbaString", $(this).val());
             that.renderCanvas();
         }).on('input propertychange', '#logo-name', function() {
             that.canvasConfig.title = $(this).val();
-            that.$logoTitle.text(that.canvasConfig.title);
+            // that.$logoTitle.text(that.canvasConfig.title);
             that.renderTitle();
+            
         }).on('input propertychange', '#add-sub-title', function() {
-            that.canvasConfig.subTitle = $(this).val();
-            that.$logoSubTitle.text(that.canvasConfig.subTitle);
+        	var val = $(this).val();
+
+            that.canvasConfig.subTitle = val;
+            // that.$logoSubTitle.text(that.canvasConfig.subTitle);
             that.renderTitle();
+            
         });
 
 
@@ -223,17 +249,20 @@
      * @param  {[type]} reset [description]
      * @return {[type]}       [description]
      */
-    LogoGen.prototype.getTitleSite = function(reset) {
+    LogoGen.prototype.getTitleSite = function(reset, center) {
         var logoTitle = this.$logoTitle[0],
         	top = logoTitle.offsetTop || 0;
-
-
-
-        if(logoTitle.offsetTop >= this.canvasConfig.height/2 - logoTitle.clientHeight) {
-        	top = this.canvasConfig.height/2 - logoTitle.clientHeight - 5;
+        console.log(center)
+        if(!center) {
+        	if(logoTitle.offsetTop >= this.canvasConfig.height/2 - logoTitle.clientHeight) {
+	        	top = this.canvasConfig.height/2 - logoTitle.clientHeight - 5;
+	        }
+        } else {
+        	top = this.canvasConfig.height/2 - logoTitle.clientHeight/2
         }
+        
 
-        console.log(top);
+        // console.log(top);
 
         return {
             top: top,
@@ -246,7 +275,7 @@
      * @param  {[type]} reset [description]
      * @return {[type]}       [description]
      */
-    LogoGen.prototype.getSubTitleSite = function(reset) {
+    LogoGen.prototype.getSubTitleSite = function(reset, first) {
         var logoSubTitle = this.$logoSubTitle[0],
         	top = logoSubTitle.offsetTop || 0;
 
@@ -262,13 +291,24 @@
 
     /**
      * [renderTitle 渲染标题们]
-     * @param  {[type]} reset [description]
-     * @return {[type]}       [description]
+     * @param  {[type]} reset [是否重置，用于上传图片后，重置左边的位置]
+     * @return {[type]} first [是否是第一次加载，即，文本是否居中]
      */
     LogoGen.prototype.renderTitle = function(reset) {
         var that = this;
+        
+        that.$logoTitle.text(that.canvasConfig.title);
+		that.$logoSubTitle.text(that.canvasConfig.subTitle);
 
-        var titleSite = that.getTitleSite(reset),
+		var center = true;
+		
+		if(that.canvasConfig.subTitle) {
+			center = false;
+		} else {
+			center = true;
+		}
+
+        var titleSite = that.getTitleSite(reset, center),
         	subTitleSite = that.getSubTitleSite(reset);
 
         this.$logoTitle.css({
@@ -325,7 +365,7 @@
     	opt = opt || {
     		time: 100
     	};
-    	
+
         var time = opt.time / 100;
         var that = this;
         console.log(time);
@@ -340,11 +380,18 @@
     /**
      * [setImg 设置图片]
      * @param {[type]} opt [description]
+     * opt = {
+     * 	height: "",
+     * 	width: "",
+     * 	imgUrl: ""
+     * }
      */
     LogoGen.prototype.setImg = function(opt) {
         var that = this;
         var box_height = that.$logoHeight.val(), // 容器高度
-            top = 0; // 图片容器距离顶部的距离
+            top = 0, // 图片容器距离顶部的距离
+            time = 100; // 图片放大倍数
+
         // 图片高度大于容器高度，则图片高度等于容器高度
         if (opt.height > box_height) {
             var r = opt.width / opt.height;
@@ -353,10 +400,31 @@
         } else {
             top = (box_height - opt.height) / 2
         }
-        that.imgInfo.width = opt.width;
-        that.imgInfo.height = opt.height;
-        that.cacheImgInfo = JSON.parse(JSON.stringify(that.imgInfo));
+
+        if(that.imgInfo.time) {
+        	time = that.imgInfo.time;
+        }
+        time = time / 100;
+
+        console.log(top);
+
+        that.cacheImgInfo = JSON.parse(JSON.stringify(opt));
+
+        that.imgInfo.width = opt.width * time;
+        that.imgInfo.height = opt.height * time;
+
+        // if (that.imgInfo.height <= box_height) {
+        //     top = (box_height - that.imgInfo.height) / 2
+        // }
+        // 
+        top = (box_height - that.imgInfo.height) / 2
+
+        
+        
+        console.log(that.cacheImgInfo);
+
         that.$logoPic.attr('src', opt.imgUrl);
+
         that.$logoImgBox.css({
             width: that.imgInfo.width + 'px',
             height: that.imgInfo.height + 'px',

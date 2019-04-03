@@ -13,21 +13,20 @@
     <div class="logo-main clearfix" id="logo-main">
         <!-- 左侧 -->
         <div class="logo-left fl">
-            <div class="logo-img-add">
+            <div class="logo-img-add nopic" id="logo-img-add">
                 <img src="" class="preview-img" id="preview" alt="">
                 <input id="upload" type="file" class="upload" onchange="loadImageFile();" />
+                <i class="el-icon-delete img-delete" id="img-delete"></i>
             </div>
             <div class="logo-name">
                 <div class="el-input">
-                    <input type="text" id="logo-name" autocomplete="off" placeholder="请输入系统名称" class="el-input__inner">
+                    <input type="text" id="logo-name" value="新点网上协同办公平台" autocomplete="off" placeholder="请输入系统名称" class="el-input__inner">
                 </div>
-                <!-- <input class="input-text" id="logo-name" placeholder="请输入系统名称" value="" type="text" /> -->
             </div>
             <div class="logo-name add-sub-title">
                 <div class="el-input">
                     <input type="text" id="add-sub-title" autocomplete="off" placeholder="请输入副标题" class="el-input__inner">
                 </div>
-                <!-- <input class="input-text" id="add-sub-title" type="text" placeholder="请输入副标题" /> -->
             </div>
         </div>
 
@@ -35,95 +34,91 @@
         <div class="logo-right fl">
             <!-- 主题和背景色 -->
             <div class="logo-theme clearfix">
-                <select name="" id="theme-select" class="select-theme fl">
-                    <option value="dream">dream 主题</option>
-                    <option selected="selected" value="grace">grace 主题</option>
-                    <option value="aide">aide 主题</option>
-                    <option value="brance">brance 主题</option>
-                    <option value="meter">meter 主题</option>
-                </select>
 
-                <div class="logo-color-picker fl">
-                    <!-- <div class="el-input">
-                        <input type="text" id="color-picker" autocomplete="off" value="#00f" placeholder="请输入系统名称" class="el-input__inner">
-                    </div> -->
-                    <input type="text" id="color-picker" class="form-control demo" value="#00f">
+                <div class="el-input el-input--mini el-input--suffix fl theme-fix-box">
+                    <select name="" id="theme-select" class="el-input__inner select-theme select-input fl">
+                        <option value="dream">dream 主题</option>
+                        <option selected="selected" value="grace">grace 主题</option>
+                        <option value="aide">aide 主题</option>
+                        <option value="brance">brance 主题</option>
+                        <option value="meter">meter 主题</option>
+                    </select>
+                    <i class="el-icon-caret-bottom select-icon"></i>
                 </div>
+                
+                <div class="logo-color-picker el-input el-input--mini el-input--suffix fl fix-box">
+                    <input type="text" id="color-picker" class="el-input__inner color-picker" data-opacity="0" value="#fff">
+                </div>
+
+                <!-- <div class="logo-color-picker fl">
+                    <input type="text" id="color-picker" class="form-control demo" value="#00f">
+                </div> -->
                 <i class="fl tip" title="单机内容进行移动或编辑；背景仅做辅助，生成时将被去除">?</i>
             </div>
 
             <!-- 登录页logo -->
             <div id="login-info">
                 <div class="logo-size clearfix relative">
-                    <div class="mr-10">
+                    <h3 class="mr-10">
                         登录页
-                    </div>
+                    </h3>
                     <div class="fl">
-                        <div class="fix-mt-5 clearfix">
-                            <span class="mr-10 fl">尺寸：</span>
-                            <div class="el-input el-input--mini el-input--suffix fl fix-box">
-                                <input type="text" id="color-picker" autocomplete="off" value="650" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-width">
+                        <div class="fix-mt-5 fl">
+                            <span class="mr-10 fl logo-label">尺寸：</span>
+                            <div class="el-input el-input--mini el-input--suffix fl fix-box-input">
+                                <input type="text" autocomplete="off" value="650" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-width">
                             </div>
 
-                            <div class="el-input el-input--mini el-input--suffix fl fix-box">
-                                <input type="text" id="color-picker" autocomplete="off" value="110" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-height">
+                            <div class="el-input el-input--mini el-input--suffix fl fix-box-input">
+                                <input type="text" autocomplete="off" value="110" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-height">
                             </div>
-                            <!-- <input type="text" class="logo-size-input logo-width" value="650" name="" />
-                        <input type="text" class="logo-size-input logo-height" value="110" name="" /> -->
                         </div>
                         
-                        <div class="fix-mt-5 clearfix">
+                        <div class="fix-mt-5 fl pic-info hidden">
                             <span  class="mr-10">图片：</span>
-                            <!-- <span class="icon-reduce">-</span> -->
                             <button type="button" class="el-button el-button--default el-button--mini icon-reduce">
                                 <span>-</span>
                             </button>
-                            <div class="el-input el-input--mini el-input--suffix fix-box">
+                            <div class="el-input el-input--mini el-input--suffix fix-box-input">
                                 <input type="text" data-time="100" min="10" type="text" autocomplete="off" value="100%" class="el-input__inner pic-times">
                             </div>
-                            <!-- <input class="pic-times" data-time="100" type="text" min="10" value="100%" /> -->
-                            <!-- <span class="icon-plus">+</span> -->
 
                             <button type="button" class="el-button el-button--default el-button--mini icon-plus">
                                 <span>+</span>
                             </button>
                         </div>
 
-                        <div class="fix-mt-5 clearfix">
-                            <span  class="mr-10">文本：</span>
+                        <div class="fix-mt-5 fl">
+                            <span  class="mr-10 title-text logo-label"></span>
                             <div class="text-info hidden">
-                                <div class="logo-text-picker">
-                                    <input type="text" class="text-picker" value="#fff">
+                                <div class="logo-text-picker el-input el-input--mini el-input--suffix fl fix-box">
+                                    <input type="text" class="el-input__inner color-picker text-picker" value="#fff">
                                 </div>
-                                <!-- <input type="text" id="text-picker" class="text-picker" value="#fff"> -->
-                                <div class="el-input el-input--mini el-input--suffix fix-box">
-                                   <!--  <input type="text" id="color-picker" autocomplete="off" value="110" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-height"> -->
-                                   <input type="text" class="el-input__inner logo-size-input logo-font-size" value="24px" name="" />
+
+                                <div class="el-input el-input--mini el-input--suffix fix-box-input">
+                                   <input type="text" class="el-input__inner logo-size-input logo-font-size" value="40px" name="" />
                                 </div>
-                                <!-- <input type="text" class="logo-size-input logo-font-size" value="24px" name="" /> -->
                                 <div class="el-input el-input--mini el-input--suffix fix-box">
-                                    <select name="" class="el-input__inner logo-font-weight">
+                                    <select name="" class="el-input__inner logo-font-weight select-input">
                                         <option value="300">lighter</option>
                                         <option value="400">light</option>
                                         <option value="500" selected>normal</option>
                                         <option value="700">bold</option>
                                         <option value="900">bolder</option>
                                     </select>
+                                    <i class="el-icon-caret-bottom select-icon"></i>
                                 </div>
                                 <div class="el-input el-input--mini el-input--suffix fix-box">
-                                    <select name="" class="el-input__inner logo-font-family">
+                                    <select name="" class="el-input__inner logo-font-family select-input">
                                         <option value="Microsoft YaHei" selected>微软雅黑</option>
                                         <option value="SimHei">黑体</option>
                                         <option value="SimSun">宋体</option>
                                         <option value="KaiTi">楷体</option>
                                     </select>
+                                    <i class="el-icon-caret-bottom select-icon"></i>
                                 </div>
                             </div>
                         </div>
-                        
-                        
-                        
-                        
                         
                         <button type="button" class="el-button el-button--primary el-button--mini fix-mt-5 result">
                             <i class="el-icon-download"></i> 下载
@@ -137,56 +132,80 @@
                     <div class="logo-img">
                         <img class="logo-pic" src="" alt="">
                     </div>
-                    <p class="logo-title" id="logo-title">
-                        
-                    </p>
-                    <p class="logo-sub-title" id="logo-sub-title">
-
-                    </p>
+                    <p class="logo-title" id="logo-title"></p>
+                    <p class="logo-sub-title" id="logo-sub-title"></p>
                 </div>
-
-                
             </div>
             
             <!-- 首页 -->
              <div id="home-info">
-                <div class="logo-size clearfix">
-                    <div class="fl mr-10">
+                <div class="logo-size clearfix relative">
+                    <h3 class="mr-10">
                         首页
-                    </div>
+                    </h3>
                     <div class="fl">
-                        <span class="mr-10">尺寸：</span>
-                        <input type="text" class="logo-size-input logo-width" value="300" name="" />
-                        <input type="text" class="logo-size-input logo-height" value="50" name="" />
-
-                        <span  class="mr-10">图片：</span>
-                        <span class="icon-reduce">-</span>
-                        <input class="pic-times" data-time="100" type="text" min="10" value="100%" />
-                        <span class="icon-plus">+</span>
-                        
-                        <span  class="mr-10">文本：</span>
-                        <div class="text-info hidden">
-                            <div class="logo-text-picker">
-                                <input type="text" class="text-picker" value="#fff">
+                        <div class="fix-mt-5 fl">
+                            <span class="mr-10 fl logo-label">尺寸：</span>
+                            <div class="el-input el-input--mini el-input--suffix fl fix-box-input">
+                                <input type="text" autocomplete="off" value="300" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-width">
                             </div>
-                            <!-- <input type="text" id="text-picker" class="text-picker" value="#fff"> -->
-                            <input type="text" class="logo-size-input logo-font-size" value="24px" name="" />
-                            <select name="" class=" logo-font-weight">
-                                <option value="300">lighter</option>
-                                <option value="400">light</option>
-                                <option value="500" selected>normal</option>
-                                <option value="700">bold</option>
-                                <option value="900">bolder</option>
-                            </select>
-                            <select name="" class=" logo-font-family">
-                                <option value="Microsoft YaHei" selected>微软雅黑</option>
-                                <option value="SimHei">黑体</option>
-                                <option value="SimSun">宋体</option>
-                                <option value="KaiTi">楷体</option>
-                            </select>
+
+                            <div class="el-input el-input--mini el-input--suffix fl fix-box-input">
+                                <input type="text" autocomplete="off" value="50" placeholder="请输入系统名称" class="el-input__inner logo-size-input logo-height">
+                            </div>
+                        </div>
+                        
+                        <div class="fix-mt-5 fl pic-info hidden">
+                            <span  class="mr-10">图片：</span>
+                            <button type="button" class="el-button el-button--default el-button--mini icon-reduce">
+                                <span>-</span>
+                            </button>
+                            <div class="el-input el-input--mini el-input--suffix fix-box-input">
+                                <input type="text" data-time="100" min="10" type="text" autocomplete="off" value="100%" class="el-input__inner pic-times">
+                            </div>
+
+                            <button type="button" class="el-button el-button--default el-button--mini icon-plus">
+                                <span>+</span>
+                            </button>
                         </div>
 
-                        <button class="result">下载</button>
+                        <div class="fix-mt-5 fl">
+                            <span  class="mr-10 title-text logo-label"></span>
+                            <div class="text-info hidden">
+                                <!-- <div class="logo-text-picker">
+                                    <input type="text" class="text-picker" value="#fff">
+                                </div> -->
+                                <div class="logo-text-picker el-input el-input--mini el-input--suffix fl fix-box">
+                                    <input type="text" class="el-input__inner color-picker text-picker" value="#fff">
+                                </div>
+                                <div class="el-input el-input--mini el-input--suffix fix-box-input">
+                                   <input type="text" class="el-input__inner logo-size-input logo-font-size" value="18px" name="" />
+                                </div>
+                                <div class="el-input el-input--mini el-input--suffix fix-box">
+                                    <select name="" class="el-input__inner logo-font-weight select-input">
+                                        <option value="300">lighter</option>
+                                        <option value="400">light</option>
+                                        <option value="500" selected>normal</option>
+                                        <option value="700">bold</option>
+                                        <option value="900">bolder</option>
+                                    </select>
+                                    <i class="el-icon-caret-bottom select-icon"></i>
+                                </div>
+                                <div class="el-input el-input--mini el-input--suffix fix-box">
+                                    <select name="" class="el-input__inner logo-font-family select-input">
+                                        <option value="Microsoft YaHei" selected>微软雅黑</option>
+                                        <option value="SimHei">黑体</option>
+                                        <option value="SimSun">宋体</option>
+                                        <option value="KaiTi">楷体</option>
+                                    </select>
+                                    <i class="el-icon-caret-bottom select-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="el-button el-button--primary el-button--mini fix-mt-5 result">
+                            <i class="el-icon-download"></i> 下载
+                        </button>
                     </div>
                 </div>
 
@@ -196,84 +215,23 @@
                     <div class="logo-img">
                         <img class="logo-pic" src="" alt="">
                     </div>
-                    <p class="logo-title">
-                        
-                    </p>
-                    <p class="logo-sub-title">
-
-                    </p>
+                    <p class="logo-title"></p>
+                    <p class="logo-sub-title"></p>
                 </div>
-
                 
             </div>
-
-            <!-- <div class="canvas-box" id="canvas-box-result">
-                    <canvas id="canvas-result" class="canvas" width="650" height="110"></canvas>
-                </div> -->
-            
-            <!-- 首页logo -->
-            <!-- <div id="home-info">
-                <div class="logo-size clearfix">
-                    <div class="fl mr-10">
-                        首页
-                    </div>
-                    <div class="fl">
-                        <span class="mr-10">尺寸：</span>
-                        <input type="text" class="logo-size-input logo-width" id="logo-width" value="650" name="" />
-                        <input type="text" class="logo-size-input logo-height" id="logo-height" value="110" name="" />
-            
-                        <span  class="mr-10">图片：</span>
-                        <span class="icon-reduce">-</span>
-                        <input class="pic-times" data-time="100" type="text" min="10" value="100%" />
-                        <span class="icon-plus">+</span>
-                        
-                        <span  class="mr-10">文本：</span>
-                        <div class="text-info hidden">
-                            <div class="logo-text-picker">
-                                <input type="text" id="text-picker" class="form-control demo" value="#fff">
-                            </div>
-                            <input type="text" id="text-picker" class="text-picker" value="#fff">
-                            <input type="text" class="logo-size-input  logo-font-size" id="logo-font-size" value="24px" name="" />
-                            <select name="" id="logo-font-weight" class=" logo-font-weight">
-                                <option value="300">lighter</option>
-                                <option value="400">light</option>
-                                <option value="500" selected>normal</option>
-                                <option value="700">bold</option>
-                                <option value="900">bolder</option>
-                            </select>
-                            <select name="" id="logo-font-family" class=" logo-font-family">
-                                <option value="Microsoft YaHei" selected>微软雅黑</option>
-                                <option value="SimHei">黑体</option>
-                                <option value="SimSun">宋体</option>
-                                <option value="KaiTi">楷体</option>
-                            </select>
-                        </div>
-            
-                        <button class="result">预览</button>
-                    </div>
-                </div>
-            
-                登录页logo
-                <div class="canvas-box canvas-help" id="canvas-box">
-                    <canvas id="canvas" class="canvas" width="650" height="110"></canvas>
-                    <div id="logo-img" class="logo-img">
-                        <img id="logo-pic" class="logo-pic" src="" alt="">
-                    </div>
-                    <p class="logo-title" id="logo-title">
-                        
-                    </p>
-                    <p class="logo-sub-title" id="logo-sub-title">
-            
-                    </p>
-                </div>
-            
-                <div class="canvas-box" id="canvas-box-result">
-                    <canvas id="canvas-result" class="canvas" width="650" height="110"></canvas>
-                </div>
-            </div> -->
-            
-
         </div>
+    </div>
+    <div class="dialog-bg hidden" id="dialog-bg"></div>
+    <div class="dialog-box hidden" id="dialog-box">
+        <div>
+            <p>出于版权考虑，使用前请先安装字体 -> <a href="思源黑体.zip" download="思源黑体">“思源黑体”</a></p>
+            <p class="mt-20">下载解压后 window 用户请放置到 C:\Windows\Fonts 目录下</p>
+            <div class="check-tip">
+                <div class="checkbox"></div> 不再提示
+            </div>
+        </div>
+        <i class="el-message-box__close el-icon-close dialog-close"></i>
     </div>
 
     <script src=js/jquery-1.11.1.min.js></script>
@@ -281,7 +239,6 @@
     <script src="js/jquery.minicolors.js"></script>
     <script src="js/logoGen.js"></script>
     <script src="js/main.js"></script>
-    <!-- <script src="js/index.js"></script> -->
 
 
 </body>
