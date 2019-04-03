@@ -180,7 +180,7 @@
         }).on('click', '.logo-title', function() {
             that.currentTtile = "title";
             that.initFont();
-            that.$titleText.text('系统名称：');
+            that.$titleText.text('标题：');
         }).on('click', '.logo-sub-title', function() {
             that.currentTtile = "subTitle";
             that.initFont();
@@ -212,10 +212,10 @@
 
         $('body').on('click', function (e) {
             var $target = $(e.target);
-            if (!$target.closest('.logo-img').length) {
+            if (!$target.closest('.logo-img,.pic-info').length) {
                 that.$picInfo.addClass('hidden');
             }
-            if(!$target.closest('.logo-title,.logo-sub-title').length) {
+            if(!$target.closest('.logo-title,.logo-sub-title,.text-info').length) {
             	that.$textInfo.addClass('hidden');
             }
         });
