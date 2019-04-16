@@ -156,8 +156,8 @@
             
             that.imgInfo.time = _time;
 
-            console.log("plus")
-            console.log(_time)
+            // console.log("plus")
+            // console.log(_time)
             that.renderImg({
                 time: _time
             });
@@ -168,8 +168,8 @@
             } else {
                 _time = 10;
             }
-            console.log("reduce")
-            console.log(_time)
+            // console.log("reduce")
+            // console.log(_time)
             that.$picTimes.data('time', _time).val(_time + "%").attr('data-time', _time);
             
             that.imgInfo.time = _time;
@@ -256,22 +256,29 @@
 
     /**
      * [getTitleSite 获取标题位置]
-     * @param  {[type]} reset [description]
-     * @return {[type]}       [description]
+     * @param  {[type]} reset [是否重置左侧位置]
+     * @return {[type]} center [是否获取居中的top值]
+     * @return {[type]} result [是否是最后保存的时候]
      */
-    LogoGen.prototype.getTitleSite = function(reset, center) {
+    LogoGen.prototype.getTitleSite = function(reset, center, result) {
         var logoTitle = this.$logoTitle[0],
         	top = logoTitle.offsetTop || 0;
-        console.log(center)
-        if(!center) {
-        	if(logoTitle.offsetTop >= this.canvasConfig.height/2 - logoTitle.clientHeight) {
-	        	top = this.canvasConfig.height/2 - logoTitle.clientHeight - 5;
-	        }
-        } else {
-        	top = this.canvasConfig.height/2 - logoTitle.clientHeight/2
+        // console.log(center)
+        if(!result) {
+            if(!center) {
+                if(logoTitle.offsetTop >= this.canvasConfig.height/2 - logoTitle.clientHeight) {
+                    top = this.canvasConfig.height/2 - logoTitle.clientHeight - 5;
+                }
+            } else {
+                // console.log(this.canvasConfig.height/2);
+                // console.log(logoTitle.clientHeight/2);
+
+                top = this.canvasConfig.height/2 - logoTitle.clientHeight/2
+            } 
         }
         
-
+        
+        // console.log(top)
         // console.log(top);
 
         return {
@@ -282,15 +289,17 @@
 
     /**
      * [getSubTitleSite 获取副标题位置]
-     * @param  {[type]} reset [description]
-     * @return {[type]}       [description]
+     * @param  {[type]} reset [是否重置左侧位置]
+     * @return {[type]} first [是否是第一次]
+     * @return {[type]} result [是否是最后保存的时候]
      */
-    LogoGen.prototype.getSubTitleSite = function(reset, first) {
+    LogoGen.prototype.getSubTitleSite = function(reset, first, result) {
         var logoSubTitle = this.$logoSubTitle[0],
         	top = logoSubTitle.offsetTop || 0;
-
-        if(logoSubTitle.offsetTop >= (this.canvasConfig.height - logoSubTitle.clientHeight)) {
-			top = this.canvasConfig.height - logoSubTitle.clientHeight - 5
+        if(!result) {
+            if(logoSubTitle.offsetTop >= (this.canvasConfig.height - logoSubTitle.clientHeight)) {
+                top = this.canvasConfig.height - logoSubTitle.clientHeight - 5
+            } 
         }
 
         return {
@@ -378,7 +387,7 @@
 
         var time = opt.time / 100;
         var that = this;
-        console.log(time);
+        // console.log(time);
         that.imgInfo.width = that.cacheImgInfo.width * time;
         that.imgInfo.height = that.cacheImgInfo.height * time;
         that.$logoImgBox.css({
@@ -416,7 +425,7 @@
         }
         time = time / 100;
 
-        console.log(top);
+        // console.log(top);
 
         that.cacheImgInfo = JSON.parse(JSON.stringify(opt));
 
@@ -431,7 +440,7 @@
 
         
         
-        console.log(that.cacheImgInfo);
+        // console.log(that.cacheImgInfo);
 
         that.$logoPic.attr('src', opt.imgUrl);
 
@@ -485,7 +494,7 @@
         document.body.appendChild(canvas);
         var $canvas = document.getElementById(id),
             ctx = $canvas.getContext("2d");
-        console.log(canvasConfig);
+        // console.log(canvasConfig);
         var renderResultLogo = function(opt) {
             var _bg = canvasConfig.bg,
                 _width = canvasConfig.width,
@@ -493,12 +502,12 @@
             // $canvas.style.width = _width + 'px';
             // $canvas.style.height = _height + 'px';
             // ctx.lineWidth = 10;
-            console.log(_bg);
+            // console.log(_bg);
 
             var devicePixelRatio = window.devicePixelRatio || 1,
 		        backingStoreRatio = ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1,
 		        ratio = devicePixelRatio / backingStoreRatio;
-		    console.log(ratio);
+		    // console.log(ratio);
             ctx.scale(ratio, ratio);
 
 
@@ -513,22 +522,25 @@
                     left: imgBox.offsetLeft
                 };
             // console.log(imgInfo);
-            ctx.drawImage(img, imgSite.left, imgSite.top, that.imgInfo.width, that.imgInfo.height);
+            ctx.drawImage(img, imgSite.left, imgSite.top, that.imgInfo.width*ratio, that.imgInfo.height*ratio);
+
+            
             // 字体
             // 大标题
-            var titleSite = that.getTitleSite();
+            var titleSite = that.getTitleSite(false,false,true);
             ctx.font = titleConfig.weight + ' ' + titleConfig.size + ' ' + titleConfig.family;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
             ctx.fillStyle = titleConfig.color;
-            ctx.fillText(canvasConfig.title, titleSite.left, titleSite.top + 8);
+            ctx.fillText(canvasConfig.title, titleSite.left, titleSite.top ); // + 8
             // 小标题
-            var subTitleSite = that.getSubTitleSite();
+            var subTitleSite = that.getSubTitleSite(false,false,true);
+
             ctx.font = subTitleConfig.weight + ' ' + subTitleConfig.size + ' ' + subTitleConfig.family;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
             ctx.fillStyle = subTitleConfig.color;
-            ctx.fillText(canvasConfig.subTitle, subTitleSite.left, subTitleSite.top + 5);
+            ctx.fillText(canvasConfig.subTitle, subTitleSite.left, subTitleSite.top); //  + 5
         }
         renderResultLogo();
     };

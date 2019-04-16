@@ -104,7 +104,7 @@ var homeLogo = new LogoGen({
     		$this.addClass('select');
     	}
 
-    }).on('click','.dialog-close', function() {
+    }).on('click','.dialog-close,.dialog-ok', function() {
     	if($dialogTip.hasClass('select')) {
     		localStorage.select = "1";
     	} else {
@@ -113,6 +113,9 @@ var homeLogo = new LogoGen({
 
     	$dialogBox.addClass('hidden');
     	$dialogBg.addClass('hidden');
+    }).on('click', '.tip', function() {
+        $dialogBox.removeClass('hidden');
+        $dialogBg.removeClass('hidden');
     });
 
 	if(localStorage.select == "1") {
@@ -151,7 +154,7 @@ var homeLogo = new LogoGen({
         getImgInfo({
             url: imgUrl,
             callback: function(opt) {
-                console.log(opt);
+                // console.log(opt);
                 
                 opt.imgUrl = imgUrl;
 
@@ -172,7 +175,7 @@ var homeLogo = new LogoGen({
             alert("You must select a valid image file!");
             return;
         }
-        console.log(oFile);
+        // console.log(oFile);
         oFReader.readAsDataURL(oFile);
     }
     // 获取图片的宽高信息

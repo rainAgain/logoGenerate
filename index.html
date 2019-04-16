@@ -50,12 +50,12 @@
                     <input type="text" id="color-picker" class="el-input__inner color-picker" data-opacity="0" value="#fff">
                 </div>
 
-                <a href="思源黑体.zip" class="download" download="思源黑体">【 思源黑体 】</a>
+                <!-- <a href="思源黑体.zip" class="download" download="思源黑体">【 思源黑体 】</a> -->
 
                 <!-- <div class="logo-color-picker fl">
                     <input type="text" id="color-picker" class="form-control demo" value="#00f">
                 </div> -->
-                <i class="fl tip" title="单击内容进行移动或编辑；背景仅做辅助，生成时将被去除">?</i>
+                <i class="fl tip" title="">?</i>
             </div>
 
             <!-- 登录页logo -->
@@ -226,14 +226,25 @@
     </div>
     <div class="dialog-bg hidden" id="dialog-bg"></div>
     <div class="dialog-box hidden" id="dialog-box">
+        <div class="dialog-header">提示</div>
         <div>
-            <p>出于版权考虑，使用前请先安装字体 -> <a href="思源黑体.zip" class="download" download="思源黑体">【 思源黑体 】</a></p>
-            <p class="mt-20">下载解压后 window 用户请放置到 C:\Windows\Fonts 目录下</p>
+            <ul>
+                <li>
+                    <p>出于版权考虑，使用前请先安装字体 -> <a href="思源黑体.zip" class="download" download="思源黑体">【 思源黑体 】</a></p>
+                    <p>下载解压后 window 用户请放置到 C:\Windows\Fonts 目录下</p>
+                </li>
+                <li class="mt-20"><p>背景仅做辅助，生成时将被去除</p></li>
+            </ul>
+            
+            
             <div class="check-tip">
                 <div class="checkbox"></div> 不再提示
             </div>
         </div>
         <i class="el-message-box__close el-icon-close dialog-close"></i>
+        <button type="button" class="el-button el-button--primary el-button--mini dialog-ok">
+            知道了
+        </button>
     </div>
 
     <script src=js/jquery-1.11.1.min.js></script>
