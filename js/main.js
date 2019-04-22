@@ -66,7 +66,10 @@ var homeLogo = new LogoGen({
 (function() {
 	var $dialogBg = $('#dialog-bg'),
 		$dialogBox = $('#dialog-box'),
-		$dialogTip = $('.check-tip', $dialogBox);
+		$dialogTip = $('.check-tip', $dialogBox),
+        $logoInfo = $('#login-info'),
+        $logoWidth = $('.logo-width', $logoInfo),
+        $logoHeight = $('.logo-height', $logoInfo);
 
     $logo.on('click', '.add-sub-title', function() {
         var $this = $(this);
@@ -116,6 +119,72 @@ var homeLogo = new LogoGen({
     }).on('click', '.tip', function() {
         $dialogBox.removeClass('hidden');
         $dialogBg.removeClass('hidden');
+    }).on('input propertychange', '#theme-select', function() {
+        var val = $(this).val();
+        console.log(val);
+        if(val == 'dream') {
+            $logoWidth.val(630);
+            $logoHeight.val(64);
+
+            loginLogo.setSize({
+                width: 630,
+                height: 64
+            });
+
+            homeLogo.setSize({
+                width: 318,
+                height: 28 
+            });
+
+        } else if(val == 'grace') {
+            loginLogo.setSize({
+                width: 580,
+                height: 58
+            });
+            homeLogo.setSize({
+                width: 324,
+                height: 32 
+            });
+        } else if(val == 'aide') {
+            loginLogo.setSize({
+                width: 580,
+                height: 58
+            });
+            homeLogo.setSize({
+                width: 296,
+                height: 24 
+            });
+            
+        } else if(val == 'breeze') {
+            loginLogo.setSize({
+                width: 580,
+                height: 58
+            });
+
+            homeLogo.setSize({
+                width: 188,
+                height: 36 
+            });
+        } else if(val == 'metro') {
+            loginLogo.setSize({
+                width: 630,
+                height: 64
+            });
+            homeLogo.setSize({
+                width: 284,
+                height: 34 
+            });
+        } else if(val == 'imac') {
+            loginLogo.setSize({
+                width: 630,
+                height: 64
+            });
+            homeLogo.setSize({
+                width: 314,
+                height: 30 
+            });
+        }
+
     });
 
 	if(localStorage.select == "1") {

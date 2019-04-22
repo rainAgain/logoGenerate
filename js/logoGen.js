@@ -105,6 +105,7 @@
 
         // 按钮组事件监听
         that.$logoInfo.on('input propertychange', ".logo-width", function() {
+            console.log(111)
             that.canvasConfig.width = $(this).val();
             that.renderCanvas();
         }).on('input propertychange', '.logo-height', function() {
@@ -395,6 +396,19 @@
             height: that.imgInfo.height + 'px',
         });
     };
+
+    LogoGen.prototype.setSize = function(opt) {
+        var that = this;
+        that.canvasConfig.width = opt.width;
+        that.canvasConfig.height = opt.height;
+
+        that.$logoWidth.val(opt.width);
+        that.$logoHeight.val(opt.height);
+
+        that.renderCanvas();
+        // that.renderImg();
+        that.renderTitle();
+    }
 
     /**
      * [setImg 设置图片]
