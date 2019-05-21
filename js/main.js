@@ -183,6 +183,15 @@ var homeLogo = new LogoGen({
                 width: 314,
                 height: 30 
             });
+        } else {
+            loginLogo.setSize({
+                width: 650,
+                height: 110
+            });
+            homeLogo.setSize({
+                width: 300,
+                height: 50 
+            });
         }
 
     });
