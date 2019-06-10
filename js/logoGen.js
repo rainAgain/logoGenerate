@@ -335,6 +335,8 @@
         	top: titleSite.top + 'px',
             left: titleSite.left + 'px',
             fontSize: that.titleConfig.size,
+            height: that.titleConfig.size,
+            lineHeight: browserIsIe() ? 'normal' : 1,
             fontWeight: that.titleConfig.weight,
             fontFamily: that.titleConfig.family,
             color: that.titleConfig.color
@@ -344,6 +346,8 @@
         	top: subTitleSite.top + 'px',
             left: subTitleSite.left + 'px',
             fontSize: that.subTitleConfig.size,
+            height: that.subTitleConfig.size,
+            lineHeight: browserIsIe() ? 'normal' : 1,
             fontWeight: that.subTitleConfig.weight,
             fontFamily: that.subTitleConfig.family,
             color: that.subTitleConfig.color

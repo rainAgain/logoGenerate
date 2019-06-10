@@ -293,7 +293,7 @@ input {
 }
 
 .logo-title {
-    line-height: 1;
+    /*line-height: 1;*/
 
     position: absolute;
     z-index: 1;
@@ -319,7 +319,7 @@ input {
 }
 
 .logo-sub-title {
-    line-height: 1;
+    /*line-height: 1;*/
 
     position: absolute;
     z-index: 1;
