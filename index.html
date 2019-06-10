@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/element-ui.css">
 </head>
 <body>
+    <!-- <div class="content-tip">目前只支持 Chrome 浏览器下载 logo</div> -->
     <div class="logo-main clearfix" id="logo-main">
         <!-- 左侧 -->
         <div class="logo-left fl">
@@ -125,7 +126,7 @@
                         </div>
                         
                         <button type="button" class="el-button el-button--primary el-button--mini fix-mt-5 result">
-                            <i class="el-icon-download"></i> 下载
+                            <i class="el-icon-download"></i> <span class="down-text">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                         </button>
                     </div>
                 </div>
@@ -208,7 +209,7 @@
                         </div>
                         
                         <button type="button" class="el-button el-button--primary el-button--mini fix-mt-5 result">
-                            <i class="el-icon-download"></i> 下载
+                            <i class="el-icon-download"></i> <span class="down-text">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                         </button>
                     </div>
                 </div>
@@ -225,6 +226,10 @@
                 
             </div>
         </div>
+    </div>
+    <p id="logo-result-title" class="logo-result-title">生成结果：</p>
+    <div id="logo-result">
+        
     </div>
     <div class="dialog-bg hidden" id="dialog-bg"></div>
     <div class="dialog-box hidden" id="dialog-box">

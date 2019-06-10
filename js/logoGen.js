@@ -569,17 +569,60 @@
             id: cacheId
         });
         var canvas = document.getElementById(cacheId);
-        var image = new Image();
-        image.src = canvas.toDataURL("image/png");
-        // window.location.href=image;
-        // return image;
-        var a = document.createElement('a');
-        a.href = canvas.toDataURL('image/png'); //下载图片
-        a.download = this.canvasConfig.title + ".png";
-        a.click();
+        
+        var imgData = canvas.toDataURL('image/png');
+        // image.src = imgData;
+        // // window.location.href=image;
+        // // return image;
+        // image.appendTo($('body'))
+        if(!browserIsIe()) {
+            var a = document.createElement('a');
+            var event = new MouseEvent("click"); // 创建一个单击事件
+            a.href = imgData; //下载图片
+            a.download = this.canvasConfig.title + ".png";
+            a.dispatchEvent(event); // 触发a的单击事件
+        } else {
+            var image = new Image();
+            image.title = this.canvasConfig.title + ".png";
+            image.src = imgData;
+            $('#logo-result').html(image);
+        }
+
         $('#' + cacheId).remove();
     };
 
+    
+    win.browserIsIe = function() {
+        if (!!window.ActiveXObject || "ActiveXObject" in window){
+            return true;
+        } else{
+            return false;
+        }
+    }
 
     win.LogoGen = LogoGen;
-})(window)
+})(window);
+
+
+(function (window) {
+    try {
+        new MouseEvent('test');
+        return false; // No need to polyfill
+    } catch (e) {
+        // Need to polyfill - fall through
+    }
+
+    // Polyfills DOM4 MouseEvent
+
+    var MouseEvent = function (eventType, params) {
+        params = params || { bubbles: false, cancelable: false };
+        var mouseEvent = document.createEvent('MouseEvent');
+        mouseEvent.initMouseEvent(eventType, params.bubbles, params.cancelable, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+
+        return mouseEvent;
+    }
+
+    MouseEvent.prototype = Event.prototype;
+
+    window.MouseEvent = MouseEvent;
+})(window);

@@ -208,6 +208,16 @@ var homeLogo = new LogoGen({
 
     	$dialogTip.removeClass('select');
     }
+
+    var $downText = $('.down-text'),
+        $resultTitle = $('#logo-result-title');
+    if(browserIsIe()) {
+        $downText.text('生成');
+        $resultTitle.show();
+    } else {
+        $downText.text('下载');
+        $resultTitle.hide();
+    }
     
 
 

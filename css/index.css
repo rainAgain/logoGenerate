@@ -49,6 +49,11 @@ input {
     display: inline-block;
 }
 
+.content-tip {
+    color: #f60;
+    padding-left: 22px;
+}
+
 /* 左边 */
 .logo-left {
     position: absolute;
@@ -554,4 +559,14 @@ input {
 
 .download:hover {
     border-bottom: 1px solid #00f;
+}
+
+/* IE 下生成图片 */
+.logo-result {
+
+}
+
+.logo-result-title {
+    display: none;
+    padding: 10px 0 20px 20px;
 }
