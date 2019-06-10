@@ -586,6 +586,8 @@
             image.title = this.canvasConfig.title + ".png";
             image.src = imgData;
             $('#logo-result').html(image);
+            $('#dialog-result').removeClass('hidden');
+            $('#dialog-bg').removeClass('hidden');
         }
 
         $('#' + cacheId).remove();

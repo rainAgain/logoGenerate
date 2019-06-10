@@ -66,6 +66,7 @@ var homeLogo = new LogoGen({
 (function() {
 	var $dialogBg = $('#dialog-bg'),
 		$dialogBox = $('#dialog-box'),
+        $dialogResult = $('#dialog-result'),
 		$dialogTip = $('.check-tip', $dialogBox),
         $logoInfo = $('#login-info'),
         $logoWidth = $('.logo-width', $logoInfo),
@@ -116,6 +117,7 @@ var homeLogo = new LogoGen({
 
     	$dialogBox.addClass('hidden');
     	$dialogBg.addClass('hidden');
+        $dialogResult.addClass('hidden');
     }).on('click', '.tip', function() {
         $dialogBox.removeClass('hidden');
         $dialogBg.removeClass('hidden');
@@ -209,14 +211,11 @@ var homeLogo = new LogoGen({
     	$dialogTip.removeClass('select');
     }
 
-    var $downText = $('.down-text'),
-        $resultTitle = $('#logo-result-title');
+    var $downText = $('.down-text');
     if(browserIsIe()) {
         $downText.text('生成');
-        $resultTitle.show();
     } else {
         $downText.text('下载');
-        $resultTitle.hide();
     }
     
 
