@@ -1,9 +1,22 @@
-(function(win) {
+(function (win) {
     'use strict';
     var DEFAULT_LEFT = 10,
         DEFAULT_MARGIN = 20;
-   
-    var LogoGen = function(opt) {
+
+    var PIXEL_RATIO = (function () {
+        var c = document.createElement("canvas"),
+            ctx = c.getContext("2d"),
+            dpr = window.devicePixelRatio || 1,
+            bsr = ctx['webkitBackingStorePixelRatio'] ||
+            ctx['mozBackingStorePixelRatio'] ||
+            ctx['msBackingStorePixelRatio'] ||
+            ctx['oBackingStorePixelRatio'] ||
+            ctx['backingStorePixelRatio'] || 1;
+
+        return dpr / bsr;
+    })();
+
+    var LogoGen = function (opt) {
         this.v = "1.0.0";
         this.options = {};
         // 默认图片信息
@@ -44,22 +57,22 @@
      * @param  {[type]} options [description]
      * @return {[type]}         [description]
      */
-    LogoGen.prototype.init = function(options) {
+    LogoGen.prototype.init = function (options) {
         options = options || {};
         if (options.canvasConfig) {
             this.canvasConfig = $.extend({}, this.canvasConfig, options.canvasConfig);
         }
 
-        if(options.titleConfig) {
-        	this.titleConfig = $.extend({}, this.titleConfig, options.titleConfig);
+        if (options.titleConfig) {
+            this.titleConfig = $.extend({}, this.titleConfig, options.titleConfig);
         }
 
-        if(options.subTitleConfig) {
-        	this.subTitleConfig = $.extend({}, this.subTitleConfig, options.subTitleConfig);
+        if (options.subTitleConfig) {
+            this.subTitleConfig = $.extend({}, this.subTitleConfig, options.subTitleConfig);
         }
 
-        if(options.imgInfo) {
-        	this.imgInfo = $.extend({}, this.imgInfo, options.imgInfo);
+        if (options.imgInfo) {
+            this.imgInfo = $.extend({}, this.imgInfo, options.imgInfo);
         }
 
         this.options = JSON.parse(JSON.stringify(options));
@@ -82,7 +95,7 @@
         this.$canvas = document.getElementById(options.canvasId);
         this.ctx = this.$canvas.getContext("2d");
 
-        
+
         this.initEvent();
     };
 
@@ -90,7 +103,7 @@
      * [initEvent 初始化事件]
      * @return {[type]} [description]
      */
-    LogoGen.prototype.initEvent = function() {
+    LogoGen.prototype.initEvent = function () {
         var that = this;
         that.$textPicker.minicolors({
             opacity: true
@@ -104,17 +117,17 @@
 
 
         // 按钮组事件监听
-        that.$logoInfo.on('input propertychange', ".logo-width", function() {
+        that.$logoInfo.on('input propertychange', ".logo-width", function () {
             console.log(111)
             that.canvasConfig.width = $(this).val();
             that.renderCanvas();
-        }).on('input propertychange', '.logo-height', function() {
+        }).on('input propertychange', '.logo-height', function () {
             that.canvasConfig.height = $(this).val();
             that.renderCanvas();
-        }).on('click', '.result', function() {
+        }).on('click', '.result', function () {
             // renderResultLogo();
             that.convertCanvasToImage()
-        }).on('input propertychange', '.logo-font-family', function() {
+        }).on('input propertychange', '.logo-font-family', function () {
             // 标题字体
             var _val = $(this).val();
             if (that.currentTtile == 'title') {
@@ -123,7 +136,7 @@
                 that.subTitleConfig.family = _val;
             }
             that.renderTitle();
-        }).on('input propertychange', '.logo-font-weight', function() {
+        }).on('input propertychange', '.logo-font-weight', function () {
             // 标题字体粗细
             var _val = $(this).val();
             if (that.currentTtile == 'title') {
@@ -132,7 +145,7 @@
                 that.subTitleConfig.weight = _val;
             }
             that.renderTitle();
-        }).on('input propertychange', '.logo-font-size', function() {
+        }).on('input propertychange', '.logo-font-size', function () {
             // 标题字体大小
             var _val = $(this).val();
             if (that.currentTtile == 'title') {
@@ -141,7 +154,7 @@
                 that.subTitleConfig.size = _val;
             }
             that.renderTitle();
-        }).on('input propertychange', '.text-picker', function() {
+        }).on('input propertychange', '.text-picker', function () {
             // titleConfig.color = $textPicker.minicolors("rgbaString", $(this).val());
             var _val = that.$textPicker.minicolors("value");
             if (that.currentTtile == 'title') {
@@ -150,11 +163,11 @@
                 that.subTitleConfig.color = _val;
             }
             that.renderTitle();
-        }).on('click', '.icon-plus', function() {
+        }).on('click', '.icon-plus', function () {
             var _time = parseInt(that.$picTimes.data('time'));
             _time = _time + 10;
             that.$picTimes.data('time', _time).val(_time + "%").attr('data-time', _time);
-            
+
             that.imgInfo.time = _time;
 
             // console.log("plus")
@@ -162,7 +175,7 @@
             that.renderImg({
                 time: _time
             });
-        }).on('click', '.icon-reduce', function() {
+        }).on('click', '.icon-reduce', function () {
             var _time = parseInt(that.$picTimes.data('time'));
             if (_time > 10) {
                 _time = _time - 10;
@@ -172,43 +185,45 @@
             // console.log("reduce")
             // console.log(_time)
             that.$picTimes.data('time', _time).val(_time + "%").attr('data-time', _time);
-            
+
             that.imgInfo.time = _time;
 
             that.renderImg({
                 time: _time
             });
-        }).on('click', '.logo-title', function() {
+        }).on('mousedown', '.logo-title', function () {
             that.currentTtile = "title";
             that.initFont();
             that.$titleText.text('标题：');
-        }).on('click', '.logo-sub-title', function() {
+
+        }).on('mousedown', '.logo-sub-title', function () {
             that.currentTtile = "subTitle";
             that.initFont();
             that.$titleText.text('副标题：');
-        }).on('click', '.logo-pic', function() {
-        	if(that.$picInfo.hasClass('hidden')) {
-        		that.$picInfo.removeClass('hidden');
-        	}
+
+        }).on('mousedown', '.logo-pic', function () {
+            if (that.$picInfo.hasClass('hidden')) {
+                that.$picInfo.removeClass('hidden');
+            }
         });
 
         var $colorPicker = $('#color-picker');
 
-        $('body').on('input propertychange', '#color-picker', function() {
+        $('body').on('input propertychange', '#color-picker', function () {
             that.canvasConfig.bg = $colorPicker.minicolors("rgbaString", $(this).val());
             that.renderCanvas();
-        }).on('input propertychange', '#logo-name', function() {
+        }).on('input propertychange', '#logo-name', function () {
             that.canvasConfig.title = $(this).val();
             // that.$logoTitle.text(that.canvasConfig.title);
             that.renderTitle();
-            
-        }).on('input propertychange', '#add-sub-title', function() {
-        	var val = $(this).val();
+
+        }).on('input propertychange', '#add-sub-title', function () {
+            var val = $(this).val();
 
             that.canvasConfig.subTitle = val;
             // that.$logoSubTitle.text(that.canvasConfig.subTitle);
             that.renderTitle();
-            
+
         });
 
         $('body').on('click', function (e) {
@@ -216,8 +231,8 @@
             if (!$target.closest('.logo-img,.pic-info').length) {
                 that.$picInfo.addClass('hidden');
             }
-            if(!$target.closest('.logo-title,.logo-sub-title,.text-info').length) {
-            	that.$textInfo.addClass('hidden');
+            if (!$target.closest('.logo-title,.logo-sub-title,.text-info').length) {
+                that.$textInfo.addClass('hidden');
             }
         });
 
@@ -240,7 +255,7 @@
      * [renderCanvas 渲染canvas画布]
      * @return {[type]} [description]
      */
-    LogoGen.prototype.renderCanvas = function() {
+    LogoGen.prototype.renderCanvas = function () {
         var canvasConfig = this.canvasConfig;
         // console.log(canvasConfig);
         var _bg = canvasConfig.bg,
@@ -261,24 +276,24 @@
      * @return {[type]} center [是否获取居中的top值]
      * @return {[type]} result [是否是最后保存的时候]
      */
-    LogoGen.prototype.getTitleSite = function(reset, center, result) {
+    LogoGen.prototype.getTitleSite = function (reset, center, result) {
         var logoTitle = this.$logoTitle[0],
-        	top = logoTitle.offsetTop || 0;
+            top = logoTitle.offsetTop || 0;
         // console.log(center)
-        if(!result) {
-            if(!center) {
-                if(logoTitle.offsetTop >= this.canvasConfig.height/2 - logoTitle.clientHeight) {
-                    top = this.canvasConfig.height/2 - logoTitle.clientHeight - 5;
+        if (!result) {
+            if (!center) {
+                if (logoTitle.offsetTop >= this.canvasConfig.height / 2 - logoTitle.clientHeight) {
+                    top = this.canvasConfig.height / 2 - logoTitle.clientHeight - 5;
                 }
             } else {
                 // console.log(this.canvasConfig.height/2);
                 // console.log(logoTitle.clientHeight/2);
 
-                top = this.canvasConfig.height/2 - logoTitle.clientHeight/2
-            } 
+                top = this.canvasConfig.height / 2 - logoTitle.clientHeight / 2
+            }
         }
-        
-        
+
+
         // console.log(top)
         // console.log(top);
 
@@ -294,13 +309,13 @@
      * @return {[type]} first [是否是第一次]
      * @return {[type]} result [是否是最后保存的时候]
      */
-    LogoGen.prototype.getSubTitleSite = function(reset, first, result) {
+    LogoGen.prototype.getSubTitleSite = function (reset, first, result) {
         var logoSubTitle = this.$logoSubTitle[0],
-        	top = logoSubTitle.offsetTop || 0;
-        if(!result) {
-            if(logoSubTitle.offsetTop >= (this.canvasConfig.height - logoSubTitle.clientHeight)) {
+            top = logoSubTitle.offsetTop || 0;
+        if (!result) {
+            if (logoSubTitle.offsetTop >= (this.canvasConfig.height - logoSubTitle.clientHeight)) {
                 top = this.canvasConfig.height - logoSubTitle.clientHeight - 5
-            } 
+            }
         }
 
         return {
@@ -314,25 +329,25 @@
      * @param  {[type]} reset [是否重置，用于上传图片后，重置左边的位置]
      * @return {[type]} first [是否是第一次加载，即，文本是否居中]
      */
-    LogoGen.prototype.renderTitle = function(reset) {
+    LogoGen.prototype.renderTitle = function (reset) {
         var that = this;
-        
-        that.$logoTitle.text(that.canvasConfig.title);
-		that.$logoSubTitle.text(that.canvasConfig.subTitle);
 
-		var center = true;
-		
-		if(that.canvasConfig.subTitle) {
-			center = false;
-		} else {
-			center = true;
-		}
+        that.$logoTitle.text(that.canvasConfig.title);
+        that.$logoSubTitle.text(that.canvasConfig.subTitle);
+
+        var center = true;
+
+        if (that.canvasConfig.subTitle) {
+            center = false;
+        } else {
+            center = true;
+        }
 
         var titleSite = that.getTitleSite(reset, center),
-        	subTitleSite = that.getSubTitleSite(reset);
+            subTitleSite = that.getSubTitleSite(reset);
 
         this.$logoTitle.css({
-        	top: titleSite.top + 'px',
+            top: titleSite.top + 'px',
             left: titleSite.left + 'px',
             fontSize: that.titleConfig.size,
             height: that.titleConfig.size,
@@ -343,7 +358,7 @@
         });
 
         this.$logoSubTitle.css({
-        	top: subTitleSite.top + 'px',
+            top: subTitleSite.top + 'px',
             left: subTitleSite.left + 'px',
             fontSize: that.subTitleConfig.size,
             height: that.subTitleConfig.size,
@@ -358,7 +373,7 @@
      * [initFont 初始化字体格式]
      * @return {[type]} [description]
      */
-    LogoGen.prototype.initFont = function() {
+    LogoGen.prototype.initFont = function () {
         var titleConfig = this.titleConfig,
             subTitleConfig = this.subTitleConfig;
         if (this.currentTtile) {
@@ -385,10 +400,10 @@
      * @param  {[type]} opt [description]
      * @return {[type]}     [description]
      */
-    LogoGen.prototype.renderImg = function(opt) {
-    	opt = opt || {
-    		time: 100
-    	};
+    LogoGen.prototype.renderImg = function (opt) {
+        opt = opt || {
+            time: 100
+        };
 
         var time = opt.time / 100;
         var that = this;
@@ -401,7 +416,7 @@
         });
     };
 
-    LogoGen.prototype.setSize = function(opt) {
+    LogoGen.prototype.setSize = function (opt) {
         var that = this;
         that.canvasConfig.width = opt.width;
         that.canvasConfig.height = opt.height;
@@ -423,7 +438,7 @@
      * 	imgUrl: ""
      * }
      */
-    LogoGen.prototype.setImg = function(opt) {
+    LogoGen.prototype.setImg = function (opt) {
         var that = this;
         var box_height = that.$logoHeight.val(), // 容器高度
             top = 0, // 图片容器距离顶部的距离
@@ -438,8 +453,8 @@
             top = (box_height - opt.height) / 2
         }
 
-        if(that.imgInfo.time) {
-        	time = that.imgInfo.time;
+        if (that.imgInfo.time) {
+            time = that.imgInfo.time;
         }
         time = time / 100;
 
@@ -456,8 +471,8 @@
         // 
         top = (box_height - that.imgInfo.height) / 2
 
-        
-        
+
+
         // console.log(that.cacheImgInfo);
 
         that.$logoPic.attr('src', opt.imgUrl);
@@ -489,49 +504,40 @@
         };
     };*/
 
+
+
     /**
      * [createResultCanvas 创建生成的canvas]
      * @param  {[type]} opt [description]
      * @return {[type]}     [description]
      */
-    LogoGen.prototype.createResultCanvas = function(opt) {
+    LogoGen.prototype.createResultCanvas = function (opt) {
         opt = opt || {};
         var that = this,
             canvasConfig = that.canvasConfig,
             titleConfig = that.titleConfig,
             subTitleConfig = that.subTitleConfig;
         var id = opt.id || Date.parse(new Date());
-        var canvas = document.createElement('canvas');
-        canvas.id = id;
-        canvas.width = canvasConfig.width;
-        canvas.height = canvasConfig.height;
+        var canvas = document.createElement('canvas'),
+            ratio = PIXEL_RATIO,
+            _width = canvasConfig.width,
+            _height = canvasConfig.height;
 
-        
-        
+        canvas.id = id;
+        canvas.width = _width * ratio;
+        canvas.height = _height * ratio;
+        canvas.style.width = _width + 'px';
+        canvas.style.height = _height + 'px';
+
+        var ctx = canvas.getContext("2d");
+
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.fillStyle = "rgba(0,0,0,0)";
+        ctx.fillRect(0, 0, _width, _height);
 
         document.body.appendChild(canvas);
-        var $canvas = document.getElementById(id),
-            ctx = $canvas.getContext("2d");
-        // console.log(canvasConfig);
-        var renderResultLogo = function(opt) {
-            var _bg = canvasConfig.bg,
-                _width = canvasConfig.width,
-                _height = canvasConfig.height;
-            // $canvas.style.width = _width + 'px';
-            // $canvas.style.height = _height + 'px';
-            // ctx.lineWidth = 10;
-            // console.log(_bg);
 
-            var devicePixelRatio = window.devicePixelRatio || 1,
-		        backingStoreRatio = ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1,
-		        ratio = devicePixelRatio / backingStoreRatio;
-		    // console.log(ratio);
-            ctx.scale(ratio, ratio);
-
-
-            // ctx.fillStyle = _bg;
-            ctx.fillStyle = "rgba(0,0,0,0)";
-            ctx.fillRect(0, 0, _width, _height);
+        var renderResultLogo = function (opt) {
             // 绘图
             var img = that.$logoPic[0]; //document.getElementById('logo-pic'); // 图片本身
             var imgBox = that.$logoImgBox[0], //document.getElementById('logo-img'), // 图片容器确定位置
@@ -539,20 +545,18 @@
                     top: imgBox.offsetTop,
                     left: imgBox.offsetLeft
                 };
-            // console.log(imgInfo);
-            ctx.drawImage(img, imgSite.left, imgSite.top, that.imgInfo.width*ratio, that.imgInfo.height*ratio);
+            ctx.drawImage(img, imgSite.left, imgSite.top, that.imgInfo.width , that.imgInfo.height );
 
-            
             // 字体
             // 大标题
-            var titleSite = that.getTitleSite(false,false,true);
+            var titleSite = that.getTitleSite(false, false, true);
             ctx.font = titleConfig.weight + ' ' + titleConfig.size + ' ' + titleConfig.family;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
             ctx.fillStyle = titleConfig.color;
-            ctx.fillText(canvasConfig.title, titleSite.left, titleSite.top ); // + 8
+            ctx.fillText(canvasConfig.title, titleSite.left, titleSite.top); // + 8
             // 小标题
-            var subTitleSite = that.getSubTitleSite(false,false,true);
+            var subTitleSite = that.getSubTitleSite(false, false, true);
 
             ctx.font = subTitleConfig.weight + ' ' + subTitleConfig.size + ' ' + subTitleConfig.family;
             ctx.textAlign = 'left';
@@ -567,41 +571,72 @@
      * [convertCanvasToImage 转为图片并下载]
      * @return {[type]} [description]
      */
-    LogoGen.prototype.convertCanvasToImage = function() {
+    LogoGen.prototype.convertCanvasToImage = function () {
         var cacheId = 'create-' + Date.parse(new Date())
         this.createResultCanvas({
             id: cacheId
         });
         var canvas = document.getElementById(cacheId);
-        
-        var imgData = canvas.toDataURL('image/png');
-        // image.src = imgData;
-        // // window.location.href=image;
-        // // return image;
-        // image.appendTo($('body'))
-        if(!browserIsIe()) {
-            var a = document.createElement('a');
-            var event = new MouseEvent("click"); // 创建一个单击事件
-            a.href = imgData; //下载图片
-            a.download = this.canvasConfig.title + ".png";
-            a.dispatchEvent(event); // 触发a的单击事件
-        } else {
-            var image = new Image();
-            image.title = this.canvasConfig.title + ".png";
-            image.src = imgData;
-            $('#logo-result').html(image);
-            $('#dialog-result').removeClass('hidden');
-            $('#dialog-bg').removeClass('hidden');
+        canvas.style.display = 'none';
+
+        function dataURLToBlob(dataurl){
+            var arr = dataurl.split(',');
+            var mime = arr[0].match(/:(.*?);/)[1];
+            var bstr = atob(arr[1]);
+            var n = bstr.length;
+            var u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {type:mime});
         }
+
+        var blob = dataURLToBlob(canvas.toDataURL('image/png'));
+       
+        // if (!browserIsIe()) {
+        //     var a = document.createElement('a');
+        //     var event = new MouseEvent("click"); // 创建一个单击事件
+        //     a.href = imgData; //下载图片
+        //     a.download = this.canvasConfig.title + ".png";
+        //     a.dispatchEvent(event); // 触发a的单击事件
+        // } else {
+        //     var image = new Image();
+        //     image.title = this.canvasConfig.title + ".png";
+        //     image.src = imgData;
+        //     $('#logo-result').html(image);
+        //     $('#dialog-result').removeClass('hidden');
+        //     $('#dialog-bg').removeClass('hidden');
+        // }
+
+        var url = window.URL.createObjectURL(blob);
+        var filename = this.canvasConfig.title + ".png";
+    
+        // IE 11
+        if (window.navigator.msSaveBlob !== undefined) {
+            window.navigator.msSaveBlob(blob, filename);
+            return;
+        }
+
+        var a = document.createElement("a");
+            a.style.display = "none";
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+
+        requestAnimationFrame(function() {
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        });
 
         $('#' + cacheId).remove();
     };
 
-    
-    win.browserIsIe = function() {
-        if (!!window.ActiveXObject || "ActiveXObject" in window){
+
+    win.browserIsIe = function () {
+        if (!!window.ActiveXObject || "ActiveXObject" in window) {
             return true;
-        } else{
+        } else {
             return false;
         }
     }
@@ -610,25 +645,28 @@
 })(window);
 
 
-(function (window) {
-    try {
-        new MouseEvent('test');
-        return false; // No need to polyfill
-    } catch (e) {
-        // Need to polyfill - fall through
-    }
+// (function (window) {
+//     try {
+//         new MouseEvent('test');
+//         return false; // No need to polyfill
+//     } catch (e) {
+//         // Need to polyfill - fall through
+//     }
 
-    // Polyfills DOM4 MouseEvent
+//     // Polyfills DOM4 MouseEvent
 
-    var MouseEvent = function (eventType, params) {
-        params = params || { bubbles: false, cancelable: false };
-        var mouseEvent = document.createEvent('MouseEvent');
-        mouseEvent.initMouseEvent(eventType, params.bubbles, params.cancelable, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+//     var MouseEvent = function (eventType, params) {
+//         params = params || {
+//             bubbles: false,
+//             cancelable: false
+//         };
+//         var mouseEvent = document.createEvent('MouseEvent');
+//         mouseEvent.initMouseEvent(eventType, params.bubbles, params.cancelable, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 
-        return mouseEvent;
-    }
+//         return mouseEvent;
+//     }
 
-    MouseEvent.prototype = Event.prototype;
+//     MouseEvent.prototype = Event.prototype;
 
-    window.MouseEvent = MouseEvent;
-})(window);
+//     window.MouseEvent = MouseEvent;
+// })(window);

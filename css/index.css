@@ -45,6 +45,8 @@ input {
     outline: none;
 }
 
+select::-ms-expand { display: none; }
+
 .inline-block {
     display: inline-block;
 }
@@ -212,6 +214,8 @@ input {
     margin-top: 10px;
 
     color: #666;
+    height: 65px;
+    overflow: hidden;
 }
 
 /*.logo-size-input {

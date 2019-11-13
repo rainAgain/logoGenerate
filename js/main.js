@@ -121,7 +121,7 @@ var homeLogo = new LogoGen({
     }).on('click', '.tip', function() {
         $dialogBox.removeClass('hidden');
         $dialogBg.removeClass('hidden');
-    }).on('input propertychange', '#theme-select', function() {
+    }).on('change', '#theme-select', function() {
         var val = $(this).val();
         console.log(val);
         if(val == 'dream') {
@@ -211,16 +211,12 @@ var homeLogo = new LogoGen({
     	$dialogTip.removeClass('select');
     }
 
-    var $downText = $('.down-text');
-    if(browserIsIe()) {
-        $downText.text('生成');
-    } else {
-        $downText.text('下载');
-    }
-    
-
-
-
+    // var $downText = $('.down-text');
+    // if(browserIsIe()) {
+    //     $downText.text('生成');
+    // } else {
+    //     $downText.text('下载');
+    // }
 
 })();
 
