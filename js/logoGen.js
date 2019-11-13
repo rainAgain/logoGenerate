@@ -6,7 +6,7 @@
     var PIXEL_RATIO = (function () {
         var c = document.createElement("canvas"),
             ctx = c.getContext("2d"),
-            dpr = window.devicePixelRatio || 1,
+            dpr = window.devicePixelRatio || 2,
             bsr = ctx['webkitBackingStorePixelRatio'] ||
             ctx['mozBackingStorePixelRatio'] ||
             ctx['msBackingStorePixelRatio'] ||
@@ -118,7 +118,6 @@
 
         // 按钮组事件监听
         that.$logoInfo.on('input propertychange', ".logo-width", function () {
-            console.log(111)
             that.canvasConfig.width = $(this).val();
             that.renderCanvas();
         }).on('input propertychange', '.logo-height', function () {
@@ -170,8 +169,6 @@
 
             that.imgInfo.time = _time;
 
-            // console.log("plus")
-            // console.log(_time)
             that.renderImg({
                 time: _time
             });
@@ -182,8 +179,6 @@
             } else {
                 _time = 10;
             }
-            // console.log("reduce")
-            // console.log(_time)
             that.$picTimes.data('time', _time).val(_time + "%").attr('data-time', _time);
 
             that.imgInfo.time = _time;
@@ -257,16 +252,13 @@
      */
     LogoGen.prototype.renderCanvas = function () {
         var canvasConfig = this.canvasConfig;
-        // console.log(canvasConfig);
         var _bg = canvasConfig.bg,
             _width = canvasConfig.width,
             _height = canvasConfig.height;
-        // console.log(canvasConfig);
         this.$canvas.width = _width;
         // this.$canvas.style.height = _height + 'px';
         this.$canvas.height = _height;
         this.ctx.fillStyle = _bg;
-        // console.log(this.ctx);
         this.ctx.fillRect(0, 0, _width, _height);
     }
 
@@ -279,23 +271,16 @@
     LogoGen.prototype.getTitleSite = function (reset, center, result) {
         var logoTitle = this.$logoTitle[0],
             top = logoTitle.offsetTop || 0;
-        // console.log(center)
         if (!result) {
             if (!center) {
                 if (logoTitle.offsetTop >= this.canvasConfig.height / 2 - logoTitle.clientHeight) {
                     top = this.canvasConfig.height / 2 - logoTitle.clientHeight - 5;
                 }
             } else {
-                // console.log(this.canvasConfig.height/2);
-                // console.log(logoTitle.clientHeight/2);
 
                 top = this.canvasConfig.height / 2 - logoTitle.clientHeight / 2
             }
         }
-
-
-        // console.log(top)
-        // console.log(top);
 
         return {
             top: top,
@@ -407,7 +392,6 @@
 
         var time = opt.time / 100;
         var that = this;
-        // console.log(time);
         that.imgInfo.width = that.cacheImgInfo.width * time;
         that.imgInfo.height = that.cacheImgInfo.height * time;
         that.$logoImgBox.css({
@@ -458,7 +442,6 @@
         }
         time = time / 100;
 
-        // console.log(top);
 
         that.cacheImgInfo = JSON.parse(JSON.stringify(opt));
 
@@ -470,10 +453,6 @@
         // }
         // 
         top = (box_height - that.imgInfo.height) / 2
-
-
-
-        // console.log(that.cacheImgInfo);
 
         that.$logoPic.attr('src', opt.imgUrl);
 
@@ -532,6 +511,7 @@
         var ctx = canvas.getContext("2d");
 
         ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        // ctx.scale(ratio, ratio);
         ctx.fillStyle = "rgba(0,0,0,0)";
         ctx.fillRect(0, 0, _width, _height);
 
@@ -545,7 +525,7 @@
                     top: imgBox.offsetTop,
                     left: imgBox.offsetLeft
                 };
-            ctx.drawImage(img, imgSite.left, imgSite.top, that.imgInfo.width , that.imgInfo.height );
+            ctx.drawImage(img, imgSite.left, imgSite.top, that.imgInfo.width, that.imgInfo.height);
 
             // 字体
             // 大标题
@@ -572,27 +552,95 @@
      * @return {[type]} [description]
      */
     LogoGen.prototype.convertCanvasToImage = function () {
-        var cacheId = 'create-' + Date.parse(new Date())
+        var cacheId = 'create-' + Date.parse(new Date());
+        var that = this;
         this.createResultCanvas({
             id: cacheId
         });
         var canvas = document.getElementById(cacheId);
         canvas.style.display = 'none';
 
-        function dataURLToBlob(dataurl){
+        function dataURLToBlob(dataurl) {
             var arr = dataurl.split(',');
             var mime = arr[0].match(/:(.*?);/)[1];
             var bstr = atob(arr[1]);
             var n = bstr.length;
             var u8arr = new Uint8Array(n);
-            while(n--){
+            while (n--) {
                 u8arr[n] = bstr.charCodeAt(n);
             }
-            return new Blob([u8arr], {type:mime});
+            return new Blob([u8arr], {
+                type: mime
+            });
         }
 
-        var blob = dataURLToBlob(canvas.toDataURL('image/png'));
-       
+        var imgBase64 = canvas.toDataURL('image/png', 1); 
+
+        // imgBase64 的宽高为设置宽高的 PIXEL_RATIO 倍，所以下面需要再转一次进行恢复
+        // 不过只能是优化，本质上还是模糊
+        function imageToCanvas(src, cb) {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            var img = new Image();
+            img.src = src;
+            
+            img.onload = function () {
+                var img_w = img.width / PIXEL_RATIO,
+                    img_h = img.height / PIXEL_RATIO;
+
+                canvas.width = img_w;
+                canvas.height = img_h;
+                
+                ctx.drawImage(img, 0, 0, img_w, img_h);
+                cb(canvas);
+            };
+        }
+
+        imageToCanvas(imgBase64, function (canvas) {
+            var blob = dataURLToBlob(canvas.toDataURL('image/png', 1));
+
+            var url = window.URL.createObjectURL(blob);
+            var filename = that.canvasConfig.title + ".png";
+
+            // IE 11
+            if (window.navigator.msSaveBlob !== undefined) {
+                window.navigator.msSaveBlob(blob, filename);
+                return;
+            }
+
+            var a = document.createElement("a");
+            a.style.display = "none";
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+
+            requestAnimationFrame(function () {
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            });
+
+            $('#' + cacheId).remove();
+        })
+
+        // var img = new Image();
+        /*  img.onload = function () {
+            var oWidth = img.width;
+            var oHeight = img.height;
+            var Size = calcWH(oWidth, oHeight); //调整为合适的尺寸
+            //开始进行转换到canvas再压缩操作
+            var canvas = document.createElement("canvas");
+            canvas.width = Size.width;  //设置画布的宽度
+            canvas.height = Size.height;//设置画布的高度
+            var ctx = canvas.getContext("2d");
+            //ctx.drawImage(图像对象,画点起始Y,画点起始Y,画出宽度,画出高度)//画出宽度和高度决定了你复刻了多少像素，和是画布宽高度是两回事
+            ctx.drawImage(img,0,0,Size.width,Size.height);
+            //此时我们可以使用canvas.toBlob(function(blob){ //参数blob就已经是二进制文件了 });来把canvas转回二进制文件，但是我们使用提交表单的时候才即使转换的方式。
+            var smBase64 = canvas.toDataURL('image/jpeg', 1); 
+ */
+
+        // var blob = dataURLToBlob(resultBase64);
+
         // if (!browserIsIe()) {
         //     var a = document.createElement('a');
         //     var event = new MouseEvent("click"); // 创建一个单击事件
@@ -608,28 +656,7 @@
         //     $('#dialog-bg').removeClass('hidden');
         // }
 
-        var url = window.URL.createObjectURL(blob);
-        var filename = this.canvasConfig.title + ".png";
-    
-        // IE 11
-        if (window.navigator.msSaveBlob !== undefined) {
-            window.navigator.msSaveBlob(blob, filename);
-            return;
-        }
 
-        var a = document.createElement("a");
-            a.style.display = "none";
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-
-        requestAnimationFrame(function() {
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-        });
-
-        $('#' + cacheId).remove();
     };
 
 
