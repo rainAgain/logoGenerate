@@ -215,7 +215,7 @@ select::-ms-expand { display: none; }
 
     color: #666;
     height: 65px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 /*.logo-size-input {

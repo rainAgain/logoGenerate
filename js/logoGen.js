@@ -135,7 +135,7 @@
                 that.subTitleConfig.family = _val;
             }
             that.renderTitle();
-        }).on('input propertychange', '.logo-font-weight', function () {
+        }).on('change', '.logo-font-weight', function () {
             // 标题字体粗细
             var _val = $(this).val();
             if (that.currentTtile == 'title') {
